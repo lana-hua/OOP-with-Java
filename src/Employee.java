@@ -14,4 +14,8 @@ public enum Employee {
         this.department = department;
     }
 
+    @Override
+    public String toString() {
+        return name() + ": " + department;
+    }
 }
