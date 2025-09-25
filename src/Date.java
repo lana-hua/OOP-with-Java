@@ -14,6 +14,18 @@ public class Date {
         this.year = year;
     }
 
+    public int getDay(){
+        return day;
+    }
+
+    public int getMonth(){
+        return month;
+    }
+
+    public int getYear(){
+        return year;
+    }
+
     /**
      * Leap Year Steps:
          * Step 1. If the year is evenly divisible by 4, go to step 2. Otherwise, go to step 5.
@@ -42,11 +54,28 @@ public class Date {
         }
     }
 
-    //NOT DONE
     public boolean isValid() {
         if ((day < 1) || (day > 31) || (month < 1) || (month > 12) || (year < 0)){
             return false;
         }
+
+        //setting maxDays in each month
+        int maxDays;
+        if (month == 2) {
+            if (isLeapYear()) {
+                maxDays = 29;
+            }
+            else {
+                maxDays = 28;
+            }
+        }
+        else if ((month == 4) || (month == 6) || (month == 9) || (month == 11)) {
+            maxDays = 30;
+        }
+        else {
+            maxDays = 31;
+        }
+
         return true;
     }
 
@@ -62,5 +91,34 @@ public class Date {
             String invalid_command = dateInput + " - invalid calendar date!";
             System.out.println(invalid_command);
         }
+    }
+
+    @Override
+    public boolean equals(Object comparison) {
+        if (this == comparison) {
+            return true;
+        }
+        if ((comparison == null) || (this.getClass() != comparison.getClass())) {
+            return false;
+        }
+
+        Date compareDate = (Date) comparison;
+        return ((this.day == compareDate.day) && (this.month == compareDate.month) && (this.year == compareDate.year));
+    }
+
+    @Override
+    public String toString(){
+        return (month + "/" + day + "/" + year);
+    }
+
+    @Override
+    public int compareTo(Date comparison){
+        if (this.day != comparison.day){
+            return Integer.compare(this.day, comparison.day);
+        }
+        if (this.month != comparison.month){
+            return Integer.compare(this.month, comparison.month);
+        }
+        return Integer.compare(this.year, comparison.year);
     }
 }
