@@ -1,4 +1,3 @@
-//public class Date implements Comparable<Date> {
 public class Date implements Comparable<Date> {
     private int day;
     private int month;

@@ -13,15 +13,25 @@ public class Fleet {
             }
         }
         return NOT_FOUND;
-
     } //search the given vehicle
 
     private void grow() {
+        Vehicle[] newArray = new Vehicle[size+4];
 
-    } //resize the array
+        if (size >= 0) System.arraycopy(fleet, 0, newArray, 0, size);
+
+        fleet = newArray;
+    }
 
     public void add(Vehicle vehicle) {
-
+        if (size % 4 == 0){
+            grow();
+            fleet[size] = vehicle;
+        }
+        else {
+            fleet[size] = vehicle;
+            size++;
+        }
     } //add to end of array
 
     public void remove(Vehicle vehicle) {

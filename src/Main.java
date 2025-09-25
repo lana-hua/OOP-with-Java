@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 
 public class Main {
-    static ArrayList<Vehicle> fleet = new ArrayList<>();
+    static Fleet fleet = new Fleet();
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
