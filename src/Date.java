@@ -1,5 +1,4 @@
-//public class Date implements Comparable<Date> {
-public class Date {
+public class Date implements Comparable<Date> {
     private int day;
     private int month;
     private int year;
@@ -8,7 +7,7 @@ public class Date {
     public static final int CENTENNIAL = 100;
     public static final int QUATERCENTENNIAL = 400;
 
-    public Date(int day, int month, int year){
+    public Date(int month, int day, int year){
         this.day = day;
         this.month = month;
         this.year = year;
@@ -76,16 +75,21 @@ public class Date {
             maxDays = 31;
         }
 
-        return true;
+        return day <= maxDays;
     }
 
     public Date(String dateInput) {
         String[] dateSections = dateInput.split("/");
 
-        if ((dateSections.length == 3) && (isValid())) {
+        if (dateSections.length == 3) {
             this.month = Integer.parseInt(dateSections[0]);
             this.day = Integer.parseInt(dateSections[1]);
             this.year = Integer.parseInt(dateSections[2]);
+
+            if(!isValid()){
+                String invalid_command = dateInput + " - invalid calendar date!";
+                System.out.println(invalid_command);
+            }
         }
         else {
             String invalid_command = dateInput + " - invalid calendar date!";
