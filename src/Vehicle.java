@@ -27,4 +27,3 @@ public class Vehicle implements Comparable<Vehicle> {
         return plate.compareTo(o.plate);
     }
 }
-

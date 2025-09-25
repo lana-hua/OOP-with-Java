@@ -63,7 +63,7 @@ public class Main {
         }
 
         if (isValidMake(data_token[3].toUpperCase())) {
-             make = Make.valueOf(data_token[3].toUpperCase());;
+            make = Make.valueOf(data_token[3].toUpperCase());;
         }
         else {
             return;
