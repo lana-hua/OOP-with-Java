@@ -1,5 +1,5 @@
-
-public class Date implements Comparable<Date> {
+//public class Date implements Comparable<Date> {
+public class Date {
     private int day;
     private int month;
     private int year;
@@ -8,7 +8,7 @@ public class Date implements Comparable<Date> {
     public static final int CENTENNIAL = 100;
     public static final int QUATERCENTENNIAL = 400;
 
-    public Date(int month, int day, int year){
+    public Date(int day, int month, int year){
         this.day = day;
         this.month = month;
         this.year = year;
@@ -28,11 +28,11 @@ public class Date implements Comparable<Date> {
 
     /**
      * Leap Year Steps:
-     * Step 1. If the year is evenly divisible by 4, go to step 2. Otherwise, go to step 5.
-     * Step 2. If the year is evenly divisible by 100, go to step 3. Otherwise, go to step 4.
-     * Step 3. If the year is evenly divisible by 400, go to step 4. Otherwise, go to step 5.
-     * Step 4. The year is a leap year.
-     * Step 5. The year is not a leap year
+         * Step 1. If the year is evenly divisible by 4, go to step 2. Otherwise, go to step 5.
+         * Step 2. If the year is evenly divisible by 100, go to step 3. Otherwise, go to step 4.
+         * Step 3. If the year is evenly divisible by 400, go to step 4. Otherwise, go to step 5.
+         * Step 4. The year is a leap year.
+         * Step 5. The year is not a leap year
      **/
 
     public boolean isLeapYear() {
@@ -76,21 +76,16 @@ public class Date implements Comparable<Date> {
             maxDays = 31;
         }
 
-        return day <= maxDays;
+        return true;
     }
 
     public Date(String dateInput) {
         String[] dateSections = dateInput.split("/");
 
-        if (dateSections.length == 3) {
+        if ((dateSections.length == 3) && (isValid())) {
             this.month = Integer.parseInt(dateSections[0]);
             this.day = Integer.parseInt(dateSections[1]);
             this.year = Integer.parseInt(dateSections[2]);
-
-            if(!isValid()){
-                String invalid_command = dateInput + " - invalid calendar date!";
-                System.out.println(invalid_command);
-            }
         }
         else {
             String invalid_command = dateInput + " - invalid calendar date!";
