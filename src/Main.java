@@ -1,44 +1,37 @@
-import java.util.Objects;
 import java.util.Scanner;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
+
 
 
 public class Main {
     static ArrayList<Vehicle> fleet = new ArrayList<>();
-
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        //commands = {"A", ""}
+
         System.out.println("Vehicle Management System is running.");
 
         while (true) {
-            if (!scanner.hasNextLine()) {
-                break;  // no more input
-            }
-
             String input = scanner.nextLine().trim();
 
             if (input.isEmpty()) {
-                continue; // ignore blank lines
+                continue;
             }
 
-            if (input.equalsIgnoreCase("exit")) {
-                System.out.println("Exiting system.");
+            if (input.equals("Q")) {
+                quit();
                 break;
             }
 
-            String[] data_token = input.split("\\s+");
-            String command = data_token[0];
+            String[] dataToken = input.split("\\s+");
+            String command = dataToken[0];
 
-            command_check(command, data_token);
+            command_check(command, dataToken);
         }
 
         scanner.close();
     }
 
     public static void command_check(String command, String[] data_token) {
-        //System.out.println(command);
         switch (command) {
             case "A" -> addVehicle(data_token);
             case "PF" -> System.out.println(fleet);
@@ -52,39 +45,63 @@ public class Main {
 
     //DATA TOKEN : A LiscenseNum Date Make Odometer
     //
-    //Check date
+    //check date
     //check make
-    //check Mileage
+    //check mileage
     //check if already in fleet
     //add to fleet
 
     public static void addVehicle(String[] data_token) {
         String plate = data_token[1];
-        String obtained = data_token[2];
-        Make make = Make.valueOf(data_token[3].toUpperCase());
+        Date obtained = new Date(data_token[2]);
+        Make make;
+        int mileage = Integer.parseInt(data_token[4]);
 
-        //Check make
-        if (!isValidMake(data_token[3].toUpperCase())){
-            String invalid_make = data_token[3] + " - invalid command!";
-            System.out.println(invalid_make);
+        //Check date
+        if (!obtained.isValid()){
             return;
         }
-        int mileage = Integer.parseInt(data_token[4]);
-        Vehicle new_vehicle = new Vehicle(plate, obtained, make, mileage);
 
-        fleet.add(new_vehicle);
+        if (isValidMake(data_token[3].toUpperCase())) {
+             make = Make.valueOf(data_token[3].toUpperCase());;
+        }
+        else {
+            return;
+        }
 
-        String addVehicle_confirmation = new_vehicle.toString() + " has been added to the fleet.";
-        System.out.println(addVehicle_confirmation);
+        if (!isValidMileage(mileage)) {
+            return;
+        }
+
+        Vehicle newVehicle = new Vehicle(plate, obtained, make, mileage);
+
+        fleet.add(newVehicle);
+
+        String vehicleConfirmation = newVehicle.toString() + " has been added to the fleet.";
+        System.out.println(vehicleConfirmation);
     }
-    public static boolean isValidMake(String make){
+
+    public static boolean isValidMake(String make) {
         switch (make) {
             case "HONDA", "CHEVY", "TOYOTA", "FORD" -> {
                 return true;
             }
             default -> {
+                String invalidMake = make + " - invalid make!";
+                System.out.println(invalidMake);
                 return false;
             }
+        }
+    }
+
+    public static boolean isValidMileage(int mileage) {
+        if (mileage > 0) {
+            return true;
+        }
+        else {
+            String invalidMileage = mileage + " - invalid mileage!";
+            System.out.println(invalidMileage);
+            return false;
         }
     }
 
