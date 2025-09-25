@@ -55,7 +55,7 @@ public class Date {
     }
 
     public boolean isValid() {
-        if ((day < 1) || (day > 31) || (month < 1) || (month > 12) || (year < 0)){
+        if ((day < 1) || (day > 31) || (month < 1) || (month > 12) || (year < 0)) {
             return false;
         }
 
@@ -79,7 +79,7 @@ public class Date {
         return true;
     }
 
-    public Date(String dateInput){
+    public Date(String dateInput) {
         String[] dateSections = dateInput.split("/");
 
         if ((dateSections.length == 3) && (isValid())) {
