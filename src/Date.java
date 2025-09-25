@@ -112,12 +112,12 @@ public class Date implements Comparable<Date> {
 
     @Override
     public int compareTo(Date comparison){
-        if (this.day != comparison.day){
-            return Integer.compare(this.day, comparison.day);
+        if (this.year != comparison.year){
+            return Integer.compare(this.year, comparison.year);
         }
         if (this.month != comparison.month){
             return Integer.compare(this.month, comparison.month);
         }
-        return Integer.compare(this.year, comparison.year);
+        return Integer.compare(this.day, comparison.day);
     }
 }
