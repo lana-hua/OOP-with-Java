@@ -55,7 +55,7 @@ public class Main {
         }
 
         if (Make.isValidMake(data_token[3].toUpperCase())) {
-             make = Make.valueOf(data_token[3].toUpperCase());;
+            make = Make.valueOf(data_token[3].toUpperCase());;
         }
         else {
             return;
@@ -80,3 +80,4 @@ public class Main {
     }
 
 }
+
