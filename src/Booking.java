@@ -27,7 +27,6 @@ public class Booking {
         return employee;
     }
 
-
     @Override
     public boolean equals(Object comparison) {
         if (this == comparison) {

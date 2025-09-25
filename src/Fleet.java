@@ -5,33 +5,15 @@ public class Fleet {
     private int size; //current number of vehicles in the fleet
 
     private int find(Vehicle vehicle) {
-        if (contains(vehicle)) {
-            for (int i = 0; i < size; i++){
-                if (fleet[i].compareTo(vehicle) == 0){
-                    return i;
-                }
-            }
-        }
-        return NOT_FOUND;
+
     } //search the given vehicle
 
     private void grow() {
-        Vehicle[] newArray = new Vehicle[size+4];
 
-        if (size >= 0) System.arraycopy(fleet, 0, newArray, 0, size);
-
-        fleet = newArray;
-    }
+    } //resize the array
 
     public void add(Vehicle vehicle) {
-        if (size % 4 == 0){
-            grow();
-            fleet[size] = vehicle;
-        }
-        else {
-            fleet[size] = vehicle;
-            size++;
-        }
+
     } //add to end of array
 
     public void remove(Vehicle vehicle) {
@@ -40,7 +22,7 @@ public class Fleet {
 
     public boolean contains(Vehicle vehicle) {
         for (int i = 0; i < size; i++){
-            if (fleet[i].compareTo(vehicle) == 0){
+            if (fleet[0].compareTo(vehicle) == 0){
                 return true;
             }
         }
