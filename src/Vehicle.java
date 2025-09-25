@@ -4,6 +4,9 @@ public class Vehicle implements Comparable<Vehicle> {
     private Make make; //Make is an enum class
     private int mileage; //current reading on the odometer
 
+    public String getPlate() {
+        return plate;
+    }
 
     public Vehicle(String plate, Date obtained, Make make, int mileage) {
         this.plate = plate;
@@ -12,10 +15,25 @@ public class Vehicle implements Comparable<Vehicle> {
         this.mileage = mileage;
     }
 
-    //@Override
-    //public boolean equals(Vehicle obj) {
+    public static boolean isValidMileage(int mileage) {
+        if (mileage > 0) {
+            return true;
+        }
+        else {
+            String invalidMileage = mileage + " - invalid mileage!";
+            System.out.println(invalidMileage);
+            return false;
+        }
+    }
 
-    //}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;               // same reference
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Vehicle other = (Vehicle) o;              // safe cast now
+        return this.plate.equals(other.plate);
+    }
 
     @Override
     public String toString() {

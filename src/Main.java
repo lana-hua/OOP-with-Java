@@ -1,10 +1,7 @@
 import java.util.Scanner;
-import java.util.ArrayList;
-
-
 
 public class Main {
-    static ArrayList<Vehicle> fleet = new ArrayList<>();
+    static Fleet fleet = new Fleet();
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -43,14 +40,6 @@ public class Main {
         }
     }
 
-    //DATA TOKEN : A LiscenseNum Date Make Odometer
-    //
-    //check date
-    //check make
-    //check mileage
-    //check if already in fleet
-    //add to fleet
-
     public static void addVehicle(String[] data_token) {
         String plate = data_token[1];
         Date obtained = new Date(data_token[2]);
@@ -62,14 +51,14 @@ public class Main {
             return;
         }
 
-        if (isValidMake(data_token[3].toUpperCase())) {
+        if (Make.isValidMake(data_token[3].toUpperCase())) {
             make = Make.valueOf(data_token[3].toUpperCase());;
         }
         else {
             return;
         }
 
-        if (!isValidMileage(mileage)) {
+        if (!Vehicle.isValidMileage(mileage)) {
             return;
         }
 
@@ -81,29 +70,6 @@ public class Main {
         System.out.println(vehicleConfirmation);
     }
 
-    public static boolean isValidMake(String make) {
-        switch (make) {
-            case "HONDA", "CHEVY", "TOYOTA", "FORD" -> {
-                return true;
-            }
-            default -> {
-                String invalidMake = make + " - invalid make!";
-                System.out.println(invalidMake);
-                return false;
-            }
-        }
-    }
-
-    public static boolean isValidMileage(int mileage) {
-        if (mileage > 0) {
-            return true;
-        }
-        else {
-            String invalidMileage = mileage + " - invalid mileage!";
-            System.out.println(invalidMileage);
-            return false;
-        }
-    }
 
     public static void quit(){
         System.out.println("Vehicle Management System is terminated.");
@@ -111,3 +77,4 @@ public class Main {
     }
 
 }
+
