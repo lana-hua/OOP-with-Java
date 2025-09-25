@@ -35,6 +35,7 @@ public class Vehicle implements Comparable<Vehicle> {
 
     public void setObtained(Date obtained) {
         this.obtained = obtained;
+
     }
 
     public Vehicle(String plate, Date obtained, Make make, int mileage) {
