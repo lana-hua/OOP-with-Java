@@ -24,7 +24,7 @@ public class Fleet {
     }
 
     public void add(Vehicle vehicle) {
-        if (size % 4 == 0){
+        if (size % CAPACITY == 0){
             grow();
             fleet[size] = vehicle;
         }
@@ -35,7 +35,14 @@ public class Fleet {
     } //add to end of array
 
     public void remove(Vehicle vehicle) {
+        if (contains(vehicle)){
+            int index = find(vehicle);
+            fleet[index] = fleet[size-1];
+            fleet[size-1] = null;
+            size--;
+        } else {
 
+        }
     } //overwrite with last element
 
     public boolean contains(Vehicle vehicle) {
@@ -44,6 +51,9 @@ public class Fleet {
                 return true;
             }
         }
+
+        String notInFleet = vehicle.getPlate() + " is not in the fleet.";
+        System.out.println(notInFleet);
         return false;
     }
 
