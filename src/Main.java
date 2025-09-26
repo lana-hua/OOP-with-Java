@@ -2,9 +2,11 @@ import java.util.Scanner;
 
 public class Main {
     static Fleet fleet = new Fleet();
+    static Reservation bookings = new Reservation();
+    static TripList tripList = new TripList();
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
         System.out.println("Vehicle Management System is running.");
 
         while (true) {
@@ -35,10 +37,9 @@ public class Main {
             case "B" -> bookVehicle(dataToken);
             case "C" -> cancelBooking(dataToken);
             case "R" -> returnVehicle(dataToken);
-            case "Q" -> quit();
             case "PF" -> System.out.println(fleet);//needs to be ordered by make then date
-            case "PR" -> System.out.println(reservations);//needs to be ordered by plate then beginning date
-            case "PD" -> System.out.println(reservations);//needs to be ordered by department then by employee
+            case "PR" -> System.out.println(bookings);//needs to be ordered by plate then beginning date
+            case "PD" -> System.out.println(bookings);//needs to be ordered by department then by employee
             case "PT" -> System.out.println(tripList);//needs to be ordered by ending date
             default -> {
                 String invalid_command = command + " - invalid command!";
@@ -47,37 +48,23 @@ public class Main {
         }
     }
 
-    public static void addVehicle(String[] data_token) {
-        String plate = data_token[1];
-        Date obtained = new Date(data_token[2]);
-        Make make;
-        int mileage = Integer.parseInt(data_token[4]);
+    public static void addVehicle(String[] dataToken) {
+        if (Vehicle.isValidVehicle(dataToken)) {
+            Vehicle newVehicle = new Vehicle(dataToken);
+            fleet.add(newVehicle);
 
-        //Check date
-        if (!obtained.isValid()){
-            return;
-        }
-
-        if (Make.isValidMake(data_token[3].toUpperCase())) {
-            make = Make.valueOf(data_token[3].toUpperCase());;
-        }
-        else {
-            return;
-        }
-
-        if (!Vehicle.isValidMileage(mileage)) {
-            return;
-        }
-
-        Vehicle newVehicle = new Vehicle(plate, obtained, make, mileage);
-        fleet.add(newVehicle);
-
-        String vehicleConfirmation = newVehicle.toString() + " has been added to the fleet.";
-        System.out.println(vehicleConfirmation);
+            String vehicleConfirmation = newVehicle.toString() + " has been added to the fleet.";
+            System.out.println(vehicleConfirmation);
+        } else { return; }
     }
 
     public static void removeVehicle(String[] dataToken) {
-
+        if (Vehicle.isValidVehicle(dataToken)) {
+            Vehicle removedVehicle = new Vehicle(dataToken);
+            if (fleet.contains(removedVehicle)) {
+                fleet.remove(removedVehicle);
+            }
+        } else { return;}
     }
 
     public static void bookVehicle(String[] dataToken) {
@@ -87,6 +74,7 @@ public class Main {
     public static void cancelBooking(String[] dataToken) {
 
     }
+
     public static void returnVehicle(String[] dataToken) {
 
     }

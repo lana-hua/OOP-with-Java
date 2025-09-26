@@ -40,7 +40,7 @@ public class Reservation {
     } //overwrite with last element
 
     public boolean contains(Booking booking) {
-
+        return true;
     }
 
     public void printByVehicle(){

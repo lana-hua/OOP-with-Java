@@ -15,6 +15,31 @@ public class Vehicle implements Comparable<Vehicle> {
         this.mileage = mileage;
     }
 
+    public Vehicle (String[] dataToken) {
+        if (Vehicle.isValidVehicle(dataToken)){
+            this.plate = dataToken[1];
+            this.obtained = new Date(dataToken[2]);
+            this.make = Make.valueOf(dataToken[3]);
+            this.mileage = Integer.parseInt(dataToken[4]);
+        }
+    }
+
+    //date -> make -> mileage
+    public static boolean isValidVehicle(String[] dataToken) {
+        Date obtained = new Date(dataToken[2]);
+        int mileage = Integer.parseInt(dataToken[4]);
+
+        //check date
+        if (!obtained.isValid()) {
+            return false;
+        } else if (!Make.isValidMake(dataToken[3].toUpperCase())) {
+            return false;
+        } else if (!Vehicle.isValidMileage(mileage)) {
+            return false;
+        } else { return true; }
+
+    }
+
     public static boolean isValidMileage(int mileage) {
         if (mileage > 0) {
             return true;
