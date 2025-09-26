@@ -10,6 +10,10 @@ public enum Employee {
 
     private String department;
 
+    public String getDepartment(){
+        return department;
+    }
+
     Employee(String department) {
         this.department = department;
     }

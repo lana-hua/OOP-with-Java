@@ -34,7 +34,7 @@ public class Date implements Comparable<Date> {
          * Step 5. The year is not a leap year
      **/
 
-    public boolean isLeapYear() {
+    public boolean isLeap() {
         if (year % QUADRENNIAL == 0){
             if (year % CENTENNIAL== 0){
                 if (year % QUATERCENTENNIAL == 0){
@@ -61,7 +61,7 @@ public class Date implements Comparable<Date> {
         //setting maxDays in each month
         int maxDays;
         if (month == 2) {
-            if (isLeapYear()) {
+            if (isLeap()) {
                 maxDays = 29;
             }
             else {
@@ -75,7 +75,7 @@ public class Date implements Comparable<Date> {
             maxDays = 31;
         }
 
-        return true;
+        return (day <= maxDays);
     }
 
     public Date(String dateInput) {
