@@ -43,7 +43,7 @@ public class Booking {
 
     @Override
     public String toString(){
-        return (vehicle.toString() + " [beginning " + begin + " ending " + end + ":" + employee);
+        return (vehicle.toString() + " [beginning " + begin + " ending " + end + ":" + employee + "]");
     }
 
 }
