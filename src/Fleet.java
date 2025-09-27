@@ -30,12 +30,13 @@ public class Fleet {
 
     public void add(Vehicle vehicle) {
         if (size % CAPACITY == 0){
+            size++;
             grow();
             fleet[size] = vehicle;
         }
         else {
-            fleet[size] = vehicle;
             size++;
+            fleet[size] = vehicle;
         }
     } //add to end of array
 
@@ -46,7 +47,7 @@ public class Fleet {
             fleet[size-1] = null;
             size--;
         } else {
-
+            System.out.println("Not in Fleet");
         }
     } //overwrite with last element
 
