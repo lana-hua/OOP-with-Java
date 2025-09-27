@@ -4,6 +4,11 @@ public class Fleet {
     private Vehicle[] fleet;
     private int size; //current number of vehicles in the fleet
 
+    public Fleet() {
+        fleet = new Vehicle[CAPACITY]; // initialize array with starting capacity
+        size = 0;
+    }
+
     private int find(Vehicle vehicle) {
         if (contains(vehicle)) {
             for (int i = 0; i < size; i++){
@@ -18,7 +23,7 @@ public class Fleet {
     private void grow() {
         Vehicle[] newArray = new Vehicle[size+4];
 
-        if (size >= 0) System.arraycopy(fleet, 0, newArray, 0, size);
+        if (size >= 0) System.arraycopy(fleet, 0, newArray, 0, fleet.length);
 
         fleet = newArray;
     }

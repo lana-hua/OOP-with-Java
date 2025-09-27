@@ -1,3 +1,9 @@
+/**
+ First, a single, very descriptive sentence describing the class.
+ Then, additional lines of description are added to elaborate on the
+ details if necessary.
+ @author Lana Huang
+ */
 public class Vehicle implements Comparable<Vehicle> {
     private String plate; //license plate number
     private Date obtained; //Date class described in the next page
@@ -8,6 +14,13 @@ public class Vehicle implements Comparable<Vehicle> {
         return plate;
     }
 
+    /**
+     *
+     * @param plate
+     * @param obtained
+     * @param make
+     * @param mileage
+     */
     public Vehicle(String plate, Date obtained, Make make, int mileage) {
         this.plate = plate;
         this.obtained = obtained;
@@ -15,6 +28,10 @@ public class Vehicle implements Comparable<Vehicle> {
         this.mileage = mileage;
     }
 
+    /**
+     *
+     * @param dataToken
+     */
     public Vehicle (String[] dataToken) {
         if (Vehicle.isValidVehicle(dataToken)){
             this.plate = dataToken[1];
@@ -24,7 +41,11 @@ public class Vehicle implements Comparable<Vehicle> {
         }
     }
 
-    //date -> make -> mileage
+    /**
+     *
+     * @param dataToken
+     * @return
+     */
     public static boolean isValidVehicle(String[] dataToken) {
         Date obtained = new Date(dataToken[2]);
         int mileage = Integer.parseInt(dataToken[4]);
@@ -40,6 +61,11 @@ public class Vehicle implements Comparable<Vehicle> {
 
     }
 
+    /**
+     *
+     * @param mileage
+     * @return
+     */
     public static boolean isValidMileage(int mileage) {
         if (mileage > 0) {
             return true;
