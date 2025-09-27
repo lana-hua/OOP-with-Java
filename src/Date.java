@@ -1,3 +1,5 @@
+import java.util.Calendar;
+
 public class Date implements Comparable<Date> {
     private int day;
     private int month;
@@ -53,6 +55,19 @@ public class Date implements Comparable<Date> {
         }
     }
 
+    public boolean isTodayOrFuture(){
+        Calendar today = Calendar.getInstance();
+        Date todaysDate = new Date((today.get(Calendar.MONTH)+1), (today.get(Calendar.DAY_OF_MONTH)), (today.get(Calendar.YEAR)));
+
+        //compare date w/ today
+        if (this.compareTo(todaysDate) >= 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     public boolean isValid() {
         if ((day < 1) || (day > 31) || (month < 1) || (month > 12) || (year < 0)) {
             return false;
@@ -87,13 +102,21 @@ public class Date implements Comparable<Date> {
             this.year = Integer.parseInt(dateSections[2]);
 
             if (!isValid()){
-                String invalid_command = dateInput + " - invalid calendar date!";
+                String invalid_command = dateInput + " - invalid calendar date.";
                 System.out.println(invalid_command);
+                //throw new IllegalArgumentException(dateInput + " - invalid calendar date.");
+            }
+
+            if ((isTodayOrFuture())) {
+                String invalid_command = dateInput + " - is today or a future date.";
+                System.out.println(invalid_command);
+                //throw new IllegalArgumentException(dateInput + " - is today or a future date.");
             }
         }
         else {
-            String invalid_command = dateInput + " - invalid calendar date!";
+            String invalid_command = dateInput + " - invalid calendar date";
             System.out.println(invalid_command);
+            //throw new IllegalArgumentException(dateInput + " - invalid calendar date.");
         }
     }
 
