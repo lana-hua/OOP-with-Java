@@ -1,9 +1,9 @@
 import java.util.Scanner;
 
 public class Frontend {
-    static Fleet fleet = new Fleet();
-//  static Reservation bookings = new Reservation();
-//  static TripList tripList = new TripList();
+  static Fleet fleet = new Fleet();
+  static Reservation bookings = new Reservation();
+  static TripList tripList = new TripList();
 
     public static void run() {
         Scanner scanner = new Scanner(System.in);
@@ -33,14 +33,14 @@ public class Frontend {
     public static void command_check(String command, String[] dataToken) {
         switch (command) {
             case "A" -> addVehicle(dataToken);
-//            case "D" -> removeVehicle(dataToken);
-//            case "B" -> bookVehicle(dataToken);
-//            case "C" -> cancelBooking(dataToken);
-//            case "R" -> returnVehicle(dataToken);
+            case "D" -> removeVehicle(dataToken);
+            case "B" -> bookVehicle(dataToken);
+            case "C" -> cancelBooking(dataToken);
+            case "R" -> returnVehicle(dataToken);
             case "PF" -> System.out.println(fleet);//needs to be ordered by make then date
-//            case "PR" -> System.out.println(bookings);//needs to be ordered by plate then beginning date
-//            case "PD" -> System.out.println(bookings);//needs to be ordered by department then by employee
-//            case "PT" -> System.out.println(tripList);//needs to be ordered by ending date
+            case "PR" -> System.out.println(bookings);//needs to be ordered by plate then beginning date
+            case "PD" -> System.out.println(bookings);//needs to be ordered by department then by employee
+            case "PT" -> System.out.println(tripList);//needs to be ordered by ending date
             default -> {
                 String invalid_command = command + " - invalid command!";
                 System.out.println(invalid_command);
@@ -57,27 +57,27 @@ public class Frontend {
             System.out.println(vehicleConfirmation);
         } else { return; }
     }
-//
-//    public static void removeVehicle(String[] dataToken) {
-//        if (Vehicle.isValidVehicle(dataToken)) {
-//            Vehicle removedVehicle = new Vehicle(dataToken);
-//            if (fleet.contains(removedVehicle)) {
-//                fleet.remove(removedVehicle);
-//            }
-//        } else { return;}
-//    }
 
-//    public static void bookVehicle(String[] dataToken) {
-//
-//    }
-//
-//    public static void cancelBooking(String[] dataToken) {
-//
-//    }
-//
-//    public static void returnVehicle(String[] dataToken) {
-//
-//    }
+    public static void removeVehicle(String[] dataToken) {
+        if (Vehicle.isValidVehicle(dataToken)) {
+            Vehicle removedVehicle = new Vehicle(dataToken);
+            if (fleet.contains(removedVehicle)) {
+                fleet.remove(removedVehicle);
+            }
+        } else { return;}
+    }
+
+    public static void bookVehicle(String[] dataToken) {
+
+    }
+
+    public static void cancelBooking(String[] dataToken) {
+
+    }
+
+    public static void returnVehicle(String[] dataToken) {
+
+    }
 
 
     public static void quit() {

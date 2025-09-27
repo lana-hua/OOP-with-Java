@@ -5,7 +5,8 @@ public enum Make {
     HONDA;
 
     public static boolean isValidMake(String make) {
-        switch (make) {
+        String upperMake = make.toUpperCase();
+        switch (upperMake) {
             case "HONDA", "CHEVY", "TOYOTA", "FORD" -> {
                 return true;
             }
