@@ -1,4 +1,9 @@
-import java.awt.print.Book;
+/**
+ First, a single, very descriptive sentence describing the class.
+ Then, additional lines of description are added to elaborate on the
+ details if necessary.
+ @author Sharon Chen
+ */
 
 public class Trip {
     private Booking booking;

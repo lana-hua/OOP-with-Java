@@ -1,3 +1,10 @@
+/**
+ First, a single, very descriptive sentence describing the class.
+ Then, additional lines of description are added to elaborate on the
+ details if necessary.
+ @author Sharon Chen
+ */
+
 import java.util.Calendar;
 
 public class Booking {

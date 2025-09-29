@@ -1,3 +1,9 @@
+/**
+ First, a single, very descriptive sentence describing the class.
+ Then, additional lines of description are added to elaborate on the
+ details if necessary.
+ @author Sharon Chen
+*/
 import java.util.Calendar;
 
 public class Date implements Comparable<Date> {
@@ -137,7 +143,7 @@ public class Date implements Comparable<Date> {
         long durationMsec = bookingEnd.getTimeInMillis() - bookingStart.getTimeInMillis();
         long durationDays = durationMsec / (1000 * 60 * 60 * 24);
 
-        if ((durationDays >= 0) && (durationDays <=7)){
+        if ((durationDays >= 0) && (durationDays < 7)){
             return true;
         }
         else{
