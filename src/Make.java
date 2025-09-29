@@ -11,8 +11,7 @@ public enum Make {
                 return true;
             }
             default -> {
-                String invalidMake = make + " - invalid make!";
-                System.out.println(invalidMake);
+                Frontend.invalidMakeMessage(make);
                 return false;
             }
         }

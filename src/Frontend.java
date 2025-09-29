@@ -7,7 +7,7 @@ public class Frontend {
 
     public static void run() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Vehicle Management System is running.");
+        System.out.println("Vehicle Management System is running.\n");
 
         while (true) {
             String input = scanner.nextLine().trim();
@@ -37,7 +37,7 @@ public class Frontend {
             case "B" -> bookVehicle(dataToken);
             case "C" -> cancelBooking(dataToken);
             case "R" -> returnVehicle(dataToken);
-            case "PF" -> System.out.println(fleet);//needs to be ordered by make then date
+            case "PF" -> fleet.printByMake();//needs to be ordered by make then date
             case "PR" -> System.out.println(bookings);//needs to be ordered by plate then beginning date
             case "PD" -> System.out.println(bookings);//needs to be ordered by department then by employee
             case "PT" -> System.out.println(tripList);//needs to be ordered by ending date
@@ -58,13 +58,34 @@ public class Frontend {
         } else { return; }
     }
 
+    public static void invalidMileageMessage(int mileage) {
+        String invalidMileageMessage = mileage + " - invalid mileage";
+        System.out.println(invalidMileageMessage);
+    }
+
+    public static void invalidMakeMessage(String make) {
+        String invalidMake = make + " - invalid make!";
+        System.out.println(invalidMake);
+    }
+
     public static void removeVehicle(String[] dataToken) {
-        if (Vehicle.isValidVehicle(dataToken)) {
-            Vehicle removedVehicle = new Vehicle(dataToken);
-            if (fleet.contains(removedVehicle)) {
-                fleet.remove(removedVehicle);
-            }
-        } else { return;}
+        String plate = dataToken[1];
+        Vehicle temp = new Vehicle(plate);
+        fleet.remove(temp);
+    }
+
+    public static void notInFleetMessage(Vehicle vehicle) {
+        String notInFleetMessage = vehicle.getPlate() + " is not in the fleet.";
+        System.out.println(notInFleetMessage);
+    }
+
+    public static void removedMessage(Vehicle vehicle) {
+        String removedMessage = vehicle.toString() + " has been removed from the fleet.";
+        System.out.println(removedMessage);
+    }
+
+    public static void noVehicleInFleet() {
+        System.out.println("There is no vehicle in the fleet.");
     }
 
     public static void bookVehicle(String[] dataToken) {
