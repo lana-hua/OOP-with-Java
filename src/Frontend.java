@@ -166,7 +166,32 @@ public class Frontend {
 
     }
 
+    //R 8/24/2025 58719D 87170
     public static void returnVehicle(String[] dataToken) {
+        Date returnDate = new Date(dataToken[1]);
+        String plate = dataToken[2];
+        int mileage = Integer.parseInt(dataToken[3]);
+
+        if (!returnDate.isValid() || returnDate.isTodayOrFuture()) {
+            return;
+        } else if (bookings.findBookingForReturnVehicle(returnDate,plate) == null){
+            String cannotFindBookingMessage = plate + " booked with ending date " + returnDate + " - cannot find the booking.";
+            System.out.println(cannotFindBookingMessage);
+            return;
+        } else if (!bookings.isReturnEarliestEnd(returnDate)) {
+            String notEarliestEndDateMessage = plate + " booked with ending date " + returnDate + " - returning not in order of ending date.";
+            System.out.println(notEarliestEndDateMessage);
+            return;
+        } else if (!Vehicle.isValidMileage(mileage)) {
+            return;
+        } else if(bookings.findBookingForReturnVehicle(returnDate,plate).getVehicle().getMileage() >= mileage) {
+            String invalidMileageMessage = "Invalid mileage - current mileage: " + bookings.findBookingForReturnVehicle(returnDate,plate).getVehicle().getMileage() + " entered mileage: " + mileage;
+            System.out.println(invalidMileageMessage);
+            return;
+        } else {
+            bookings.findBookingForReturnVehicle(returnDate,plate).getVehicle().setMileage(mileage);
+        }
+
 
     }
 

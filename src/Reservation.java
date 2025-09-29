@@ -148,6 +148,16 @@ public class Reservation {
             }
         }
         return null;
+
+    //given ending date find the earliest end date, if matches return true else return false
+    public boolean isReturnEarliestEnd(Date returnDate) {
+        Date earliestDate = bookings[0].getEnd();
+        for (int i = 1; i < bookings.length; i++) {
+            if (bookings[i].getEnd().compareTo(earliestDate) < 1) {
+                earliestDate = bookings[i].getEnd();
+            }
+        }
+        return returnDate.compareTo(earliestDate) == 0;
     }
 
     //PR Command
@@ -220,4 +230,5 @@ public class Reservation {
         }
         System.out.println("*end of list.");
     } //ordered by department then by employee
+
 }
