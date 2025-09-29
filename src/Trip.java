@@ -1,7 +1,6 @@
 /**
- First, a single, very descriptive sentence describing the class.
- Then, additional lines of description are added to elaborate on the
- details if necessary.
+ The Trip class manages a completed trip's booking details.
+ It allows the user to track the trip information, make comparisons, and convert to strings.
  @author Sharon Chen
  */
 
@@ -10,24 +9,47 @@ public class Trip {
     private int beginMileage;
     private int endMileage;
 
+    /**
+     * Constructs a trip object with booking, vehicle starting mileage, and the vehicle ending mileage
+     * @param booking the booking associated with trip
+     * @param beginMileage the vehicle's starting mileage at the start of the trip
+     * @param endMileage the vehicle's ending mileage at the end of the trip
+    */
     public Trip (Booking booking, int beginMileage, int endMileage){
         this.booking = booking;
         this.beginMileage = beginMileage;
         this.endMileage = endMileage;
     }
 
+    /**
+     * Returns the booking associated with the trip
+     * @return the booking object for this trip
+    */
     public Booking getBooking(){
         return booking;
     }
 
+    /**
+     * Returns the vehicle's starting mileage with the trip
+     * @return the vehicle's starting mileage for this trip
+     */
     public int getBeginMileage() {
         return beginMileage;
     }
 
+    /**
+     * Returns the vehicle's ending mileage with the trip
+     * @return the vehicle's ending mileage for this trip
+     */
     public int getEndMileage(){
         return endMileage;
     }
 
+    /**
+     * Compares if the trip object is the same as the object given
+     * @param comparison the object to compare with the trip
+     * @return true if the objects are equal; return false otherwise
+     */
     @Override
     public boolean equals(Object comparison) {
         if (this == comparison) {
@@ -41,8 +63,10 @@ public class Trip {
         return ((this.booking == compareTrip.booking) && (this.beginMileage == compareTrip.beginMileage) && (this.endMileage == compareTrip.endMileage));
     }
 
-    // 58718D 10/15/2025 ~ 10/15/2025 original mileage: 64390 current mileage: 64500 mileage used: 110
-
+    /**
+     * Creates a string to represent the trip details
+     * @return a formatted string containing trip details including the vehicle license plate, booking dates, starting mileage, and ending mileage
+     */
     @Override
     public String toString(){
         int mileageUsed = endMileage - beginMileage;
