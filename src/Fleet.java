@@ -18,7 +18,7 @@ public class Fleet {
             }
         }
         return NOT_FOUND;
-    } //search the given vehicle
+    }
 
     private void grow() {
         Vehicle[] newArray = new Vehicle[size+4];
@@ -28,25 +28,35 @@ public class Fleet {
         fleet = newArray;
     }
 
+    /**
+     * Add the
+     * @param vehicle
+     */
     public void add(Vehicle vehicle) {
         if (size == fleet.length) {
             grow();
         }
         fleet[size] = vehicle;
         size++;
-    } //add to end of array
+    }
 
+    /**
+     * Remove the given vehicle from the fleet
+     * It does nothing if vehicle is not in fleet. It overwrites with the last vehicle in the fleet
+     * @param vehicle the vehicle to be removed from the fleet
+     */
     public void remove(Vehicle vehicle) {
         int index = find(vehicle);
         if (index != NOT_FOUND){
-            Frontend.removedMessage(fleet[index]);
+            Frontend.printRemovedVehicleMessage(fleet[index]);
             fleet[index] = fleet[size - 1];
             fleet[size - 1] = null;
             size--;
         } else {
-            Frontend.notInFleetMessage(vehicle);
+            Frontend.printNotInFleetMessage(vehicle);
         }
-    } //overwrite with last element
+    }
+
 
     public boolean contains(Vehicle vehicle) {
         for (int i = 0; i < size; i++){
@@ -59,8 +69,8 @@ public class Fleet {
 
     public void printByMake() {
         if (size == 0) {
-            Frontend.noVehicleInFleet();
-            //selection sort by make then by date
+            Frontend.printNoVehicleInFleet();
+
         } else {
             System.out.println("*List of vehicles in the fleet, ordered by make and date obtained.");
             for (int i = 0; i < size - 1; i++) {
@@ -91,5 +101,5 @@ public class Fleet {
             System.out.println("*end of list.\n");
         }
 
-    }//ordered by make, then date obtained
+    }
 }
