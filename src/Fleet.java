@@ -66,14 +66,14 @@ public class Fleet {
             for (int i = 0; i < size - 1; i++) {
                 int minIndex = i;
                 for (int j = i + 1; j < size; j++) {
-                    int compare = fleet[j].getMake().compareTo(fleet[minIndex].getMake());
-
-                    if (compare == 0) {
-                        compare = fleet[i].getDate().compareTo(fleet[minIndex].getDate());
-                    }
-
-                    if (compare < 0) {
+                    int compareMake = fleet[j].getMake().compareTo(fleet[minIndex].getMake());
+                    if (compareMake < 0) {
                         minIndex = j;
+                    } else if (compareMake == 0) {
+                        int compareDate = fleet[j].getDate().compareTo(fleet[minIndex].getDate());
+                        if (compareDate < 0) {
+                            minIndex = j;
+                        }
                     }
 
                 }

@@ -59,12 +59,12 @@ public class Frontend {
     }
 
     public static void invalidMileageMessage(int mileage) {
-        String invalidMileageMessage = mileage + " - invalid mileage";
+        String invalidMileageMessage = mileage + " - invalid mileage.";
         System.out.println(invalidMileageMessage);
     }
 
     public static void invalidMakeMessage(String make) {
-        String invalidMake = make + " - invalid make!";
+        String invalidMake = make + " - invalid make.";
         System.out.println(invalidMake);
     }
 

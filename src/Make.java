@@ -1,8 +1,8 @@
 public enum Make {
-    TOYOTA,
-    FORD,
     CHEVY,
-    HONDA;
+    FORD,
+    HONDA,
+    TOYOTA;
 
     public static boolean isValidMake(String make) {
         String upperMake = make.toUpperCase();
