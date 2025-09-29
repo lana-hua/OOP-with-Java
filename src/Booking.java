@@ -100,7 +100,7 @@ public class Booking {
     }
 
     public boolean isEmployeeConflict(){
-        
+
     }
 
     @Override
