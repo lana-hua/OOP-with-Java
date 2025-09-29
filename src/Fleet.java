@@ -57,6 +57,11 @@ public class Fleet {
         }
     }
 
+    public Vehicle getVehicle(String plate) {
+        Vehicle vehicle = new Vehicle(plate);
+        return fleet[find(vehicle)];
+    }
+
 
     public boolean contains(Vehicle vehicle) {
         for (int i = 0; i < size; i++){

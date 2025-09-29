@@ -25,7 +25,6 @@ public enum Employee {
                 return true;
             }
             default -> {
-                Frontend.printInvalidEmployeeMessage(employee);
                 return false;
             }
         }

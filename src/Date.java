@@ -81,7 +81,7 @@ public class Date implements Comparable<Date> {
                 Frontend.printBeginErrorMessage("Valid Error", date);
                 return false;
             } else if (type == "end") {
-                Frontend.printEndErrorMessage("Valid Error", date);
+                Frontend.printEndErrorMessage("Valid Error", date, date);
                 return false;
             }
         }
@@ -151,6 +151,17 @@ public class Date implements Comparable<Date> {
         }
     }
 
+    public boolean isCalendarDateValid(String date) {
+        if (!isValid()){
+            Frontend.printInvalidDate(date);
+            return false;
+        } else if ((isTodayOrFuture())) {
+            Frontend.printTodayOrFuture(date);
+            return false;
+        }
+        return true;
+    }
+
     public Date(String dateInput) {
         String[] dateSections = dateInput.split("/");
 
@@ -159,13 +170,6 @@ public class Date implements Comparable<Date> {
             this.day = Integer.parseInt(dateSections[1]);
             this.year = Integer.parseInt(dateSections[2]);
 
-            if (!isValid()){
-                Frontend.printInvalidDate(dateInput);
-            }
-
-            if ((isTodayOrFuture())) {
-                Frontend.printTodayOrFuture(dateInput);
-            }
         }
         else {
             Frontend.printInvalidDate(dateInput);

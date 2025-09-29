@@ -35,6 +35,39 @@ public class Booking {
     public Employee getEmployee(){
         return employee;
     }
+//The license plate number does not exist in the fleet.
+//6. The vehicle associated with the license plate number is not available for the dates entered.
+//7. The employee is not eligible to book a vehicle.
+//8. The employee has an existing booking conflicting with the dates entered.
+
+//     switch (errorType) {
+//            case "Vehicle does not Exist Error" -> System.out.println(plate + " is not in the fleet.");
+//            case "Vehicle not Available Error" -> System.out.println(plate + " - booking with " + begin + " ~ " + end + " not available.");
+//            case "Employee not Eligible Error" -> System.out.println(employee + " - not an eligible employee to book.");
+//            case "Employee Conflict Error" -> System.out.println(employee + " - has an existing booking conflicting with the beginning date " + begin);
+//        }
+    public static boolean isValidBooking(String[] dataToken) {
+        String plate = dataToken[3];
+        Vehicle vehicle = new Vehicle(plate);
+        String employee = dataToken[4];
+        Date begin = new Date(dataToken[1]);
+        Date end = new Date(dataToken[2]);
+
+        if (!Frontend.fleet.contains(vehicle)) {
+            Frontend.printInvalidBookingMessage("Vehicle does not Exist Error", vehicle.getPlate(), null, null, null);
+            return false;
+        } else if (Frontend.bookings.isVehicleConflict(begin, end, plate)) {
+            Frontend.printInvalidBookingMessage("Vehicle not Available Error", plate, null, begin, end);
+            return false;
+        } else if (!Employee.isValidEmployee(employee)) {
+            Frontend.printInvalidBookingMessage("Employee not Eligible Error", null, employee, null,null);
+            return false;
+        } else if (Frontend.bookings.isEmployeeConflict(begin, end, employee) != null) {
+            Frontend.printInvalidBookingMessage("Employee Conflict Error", null, employee, begin, end);
+            return false;
+        }
+        return true;
+    }
 
     public static boolean isValidBookingDate(String[] dataToken) {
         Date begin = new Date(dataToken[1]);
@@ -42,7 +75,7 @@ public class Booking {
 
         if (!begin.isBookingDateValid("begin", begin)) {
             return false;
-        } else if (begin.isTodayOrFuture()) {
+        } else if (!begin.isTodayOrFuture()) {
             Frontend.printBeginErrorMessage("Today or Future Error", begin);
             return false;
         } else if (!begin.isWithin3Months()) {
@@ -52,50 +85,11 @@ public class Booking {
             return false;
         } else if (end.compareTo(begin) < 0) {
             Frontend.printEndErrorMessage("Equal to or Later Error", begin, end);
+            return false;
+        } else if (!end.isWithin7Days(begin, end)) {
+            Frontend.printEndErrorMessage("More than a Week Error", begin, end);
+            return false;
         }
-        return true;
-//        else if (begin.isWithin3Months()) return false;
-//        else if (!end.isValid() || end.compareTo(begin) > 0) { return false;}
-//        else {return true;}
-    }
-
-
-
-
-    public String validateBookingDate(){
-        if (!begin.isValid()){
-            return (begin + " - beginning date is not a valid calendar date.");
-        }
-
-        if (begin.isTodayOrFuture()){
-            return (begin + " - beginning date is not today or a future date.");
-        }
-
-        if (!end.isValid()){
-            return (end + " - ending date is not a valid calendar date.");
-        }
-
-        if (end.isTodayOrFuture()){
-            return (end + " - ending date is not today or a future date.");
-        }
-
-        if (end.compareTo(begin) < 0){
-            return (end + " - ending date must be equal or after the beginning date " + begin);
-        }
-
-        if (!begin.isWithin3Months()){
-            return (begin + " - beginning date beyond 3 months.");
-        }
-
-//        if (!isWithin7Days()){
-//            return (begin + " ~ " + end  + " - duration more than a week.");
-//        }
-
-        return null;
-    }
-
-
-    public boolean isEmployeeConflict(){
         return true;
     }
 
