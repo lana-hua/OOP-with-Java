@@ -71,7 +71,12 @@ public class Frontend {
     public static void removeVehicle(String[] dataToken) {
         String plate = dataToken[1];
         Vehicle temp = new Vehicle(plate);
-        fleet.remove(temp);
+        if(!bookings.isVehicleBooked(plate)) {
+            fleet.remove(temp);
+        } else {
+            System.out.println(plate + " - has existing bookings; cannot be removed.");
+        }
+
     }
 
     public static void printNotInFleetMessage(Vehicle vehicle) {
@@ -141,7 +146,7 @@ public class Frontend {
     }
 
     public static void printValidCancelBookingMessage(Date begin, Date end, String plate) {
-        String validCancelBookingMessage = plate + ":" + begin + " ~ " + end + " - has been canceled.";
+        String validCancelBookingMessage = plate + ":" + begin + " ~ " + end + " has been canceled.";
         System.out.println(validCancelBookingMessage);
     }
 
@@ -155,10 +160,11 @@ public class Frontend {
         Date end = new Date(dataToken[2]);
         String plate = dataToken[3];
 
-        if (!begin.isValid() || begin.isTodayOrFuture() || !end.isValid() || end.isTodayOrFuture()){
+        if (!begin.isValid() || !begin.isTodayOrFuture() || !end.isValid() || !end.isTodayOrFuture()){
+            printInvalidDate(plate);
             return;
         }
-        else if (bookings.findBookingForCancelBooking(begin, end, plate) == null){
+        if (bookings.findBookingForCancelBooking(begin, end, plate) == null){
             printInvalidCancelBookingMessage(begin, end, plate);
             return;
         }
@@ -174,13 +180,10 @@ public class Frontend {
         String plate = dataToken[2];
         int mileage = Integer.parseInt(dataToken[3]);
 
-        if (!returnDate.isValid() || returnDate.isTodayOrFuture()) {
-            return;
-        } else if (bookings.findBookingForReturnVehicle(returnDate,plate) == null){
+        if (bookings.findBookingForReturnVehicle(returnDate, plate) == null){
             String cannotFindBookingMessage = plate + " booked with ending date " + returnDate + " - cannot find the booking.";
             System.out.println(cannotFindBookingMessage);
             return;
-
         } else if (!bookings.isReturnEarliestEnd(returnDate)) {
             String notEarliestEndDateMessage = plate + " booked with ending date " + returnDate + " - returning not in order of ending date.";
             System.out.println(notEarliestEndDateMessage);
@@ -203,11 +206,12 @@ public class Frontend {
             booking.getVehicle().setMileage(mileage);
             bookings.remove(booking);
 
+            System.out.println("Trip completed: " + newTrip.toString());
         }
     }
 
     public static void quit() {
-        System.out.println("Vehicle Management System is terminated.");
+        System.out.println("\nVehicle Management System is terminated.");
         System.exit(0);
     }
 
