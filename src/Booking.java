@@ -5,8 +5,6 @@
  @author Sharon Chen
  */
 
-import java.util.Calendar;
-
 public class Booking {
     private Date begin;
     private Date end;
@@ -35,17 +33,7 @@ public class Booking {
     public Employee getEmployee(){
         return employee;
     }
-//The license plate number does not exist in the fleet.
-//6. The vehicle associated with the license plate number is not available for the dates entered.
-//7. The employee is not eligible to book a vehicle.
-//8. The employee has an existing booking conflicting with the dates entered.
 
-//     switch (errorType) {
-//            case "Vehicle does not Exist Error" -> System.out.println(plate + " is not in the fleet.");
-//            case "Vehicle not Available Error" -> System.out.println(plate + " - booking with " + begin + " ~ " + end + " not available.");
-//            case "Employee not Eligible Error" -> System.out.println(employee + " - not an eligible employee to book.");
-//            case "Employee Conflict Error" -> System.out.println(employee + " - has an existing booking conflicting with the beginning date " + begin);
-//        }
     public static boolean isValidBooking(String[] dataToken) {
         String plate = dataToken[3];
         Vehicle vehicle = new Vehicle(plate);
@@ -63,6 +51,7 @@ public class Booking {
             Frontend.printInvalidBookingMessage("Employee not Eligible Error", null, employee, null,null);
             return false;
         } else if (Frontend.bookings.isEmployeeConflict(begin, end, employee) != null) {
+            Date start = Frontend.bookings.isEmployeeConflict(begin, end, employee);
             Frontend.printInvalidBookingMessage("Employee Conflict Error", null, employee, begin, end);
             return false;
         }
@@ -76,23 +65,22 @@ public class Booking {
         if (!begin.isBookingDateValid("begin", begin)) {
             return false;
         } else if (!begin.isTodayOrFuture()) {
-            Frontend.printBeginErrorMessage("Today or Future Error", begin);
+            Frontend.printBeginDateErrorMessage("Today or Future Error", begin);
             return false;
         } else if (!begin.isWithin3Months()) {
-            Frontend.printBeginErrorMessage("Beyond 3 Months Error", begin);
+            Frontend.printBeginDateErrorMessage("Beyond 3 Months Error", begin);
             return false;
         } else if (!end.isBookingDateValid("end", end)) {
             return false;
         } else if (end.compareTo(begin) < 0) {
-            Frontend.printEndErrorMessage("Equal to or Later Error", begin, end);
+            Frontend.printEndDateErrorMessage("Equal to or Later Error", begin, end);
             return false;
         } else if (!end.isWithin7Days(begin, end)) {
-            Frontend.printEndErrorMessage("More than a Week Error", begin, end);
+            Frontend.printEndDateErrorMessage("More than a Week Error", begin, end);
             return false;
         }
         return true;
     }
-
 
     @Override
     public boolean equals(Object comparison) {
@@ -110,7 +98,7 @@ public class Booking {
     //67359S:FORD:11/1/2019 [mileage:59644] [beginning 10/31/2025 ending 11/2/2025:KAUR]
     @Override
     public String toString(){
-        return (vehicle.toString() + " [beginning " + begin + " ending " + end + ":" + employee + "]");
+        return (vehicle.toString() + " [beginning " + begin + " ending " + end + ":" + employee.name().toUpperCase() + "]");
     }
 
 }

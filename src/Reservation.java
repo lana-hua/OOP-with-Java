@@ -115,9 +115,8 @@ public class Reservation {
         Calendar bookingStart = Calendar.getInstance();
         Calendar bookingEnd = Calendar.getInstance();
 
-
         for (int i = 0; i < Frontend.bookings.getSize(); i++) {
-            if (Frontend.bookings.bookings[i].getVehicle().getPlate().equals(plate)) {
+            if (Frontend.bookings.bookings[i].getVehicle().getPlate().equalsIgnoreCase(plate)) {
                 bookingStart.set(Calendar.DAY_OF_MONTH, Frontend.bookings.bookings[i].getBegin().getDay());
                 bookingStart.set(Calendar.MONTH, Frontend.bookings.bookings[i].getBegin().getMonth() - 1);
                 bookingStart.set(Calendar.YEAR, Frontend.bookings.bookings[i].getBegin().getYear());
@@ -130,11 +129,11 @@ public class Reservation {
                 boolean isEndWithinRange = testEnd.after(bookingStart) && testEnd.before(bookingEnd);
                 boolean isBookedStartWithinRange = bookingStart.after(testStart) && bookingStart.before(testEnd);
                 boolean isBookedEndWithinRange = bookingEnd.after(testStart) && bookingEnd.before(testEnd);
+                boolean isBeginSame = testStart.equals(bookingStart);
+                boolean isEndSame = testEnd.equals(bookingEnd);
 
-                if ((isStartWithinRange) || (isEndWithinRange) || (isBookedStartWithinRange) || (isBookedEndWithinRange)) {
+                if ((isStartWithinRange) || (isEndWithinRange) || (isBookedStartWithinRange) || (isBookedEndWithinRange) || (isBeginSame) || (isEndSame)) {
                     return true;
-                } else {
-                    return false;
                 }
             }
         }
@@ -169,16 +168,17 @@ public class Reservation {
                 boolean isEndWithinRange = testEnd.after(bookingStart) && testEnd.before(bookingEnd);
                 boolean isBookedStartWithinRange = bookingStart.after(testStart) && bookingStart.before(testEnd);
                 boolean isBookedEndWithinRange = bookingEnd.after(testStart) && bookingEnd.before(testEnd);
+                boolean isBeginSame = testStart.equals(bookingStart);
+                boolean isEndSame = testEnd.equals(bookingEnd);
 
-                if ((isStartWithinRange) || (isEndWithinRange) || (isBookedStartWithinRange) || (isBookedEndWithinRange)) {
+                if ((isStartWithinRange) || (isEndWithinRange) || (isBookedStartWithinRange) || (isBookedEndWithinRange) || (isBeginSame) || (isEndSame)) {
                     return Frontend.bookings.bookings[i].getBegin();
-                } else {
-                    return null;
                 }
             }
         }
         return null;
     }
+
 
     //given ending date find the earliest end date, if matches return true else return false
     public boolean isReturnEarliestEnd (Date returnDate){
@@ -216,7 +216,7 @@ public class Reservation {
         for (int i = 0; i < size; i++) {
             System.out.println(bookings[i].toString());
         }
-        System.out.println("*end of list.");
+        System.out.println("*end of list.\n");
     } //ordered by plate then beginning date
 
     //PD Command
@@ -258,6 +258,6 @@ public class Reservation {
             }
             System.out.println(bookings[i].toString());
         }
-        System.out.println("*end of list.");
+        System.out.println("*end of list.\n");
     } //ordered by department then by employee
 }
