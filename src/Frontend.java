@@ -89,8 +89,8 @@ public class Frontend {
     }
 
     public static void printInvalidDate(String dateInput){
-        String invalid_command = dateInput + " - invalid calendar date.";
-        System.out.println(invalid_command);
+        String invalidDateMessage = dateInput + " - invalid calendar date.";
+        System.out.println(invalidDateMessage);
     }
 
     public static void printTodayOrFuture(String dateInput) {
@@ -103,7 +103,23 @@ public class Frontend {
         System.out.println(invalidEmployeeMessage);
     }
 
+    public static void printVehicleConflictMessage(String plate, Date begin, Date end) {
+        String vehicleConflictMessage = plate + " - booking with " + begin + " ~ " + end + " not available.";
+        System.out.println(vehicleConflictMessage);
+    }
+
+    public static void printEmployeeConflictMessage(String employee, Date begin) {
+        String employeeConflictMessage = employee + " - has an existing booking conflicting with the beginning date " + begin;
+        System.out.println(employeeConflictMessage);
+    }
+
+    public static void printInvalidBookingDate(Booking booking) {
+        String invalidBookingDate = booking.validateBookingDate();
+        System.out.println(invalidBookingDate);
+    }
+
     public static void bookVehicle(String[] dataToken) {
+
         if (Booking.isValidBookingDate(dataToken)) {
 
         } else {return;}
@@ -122,6 +138,49 @@ public class Frontend {
             case "Equal to or Later Error" -> System.out.println(end + " - ending date must be equal or after the beginning date" + begin);
             case "Beyond 3 Months Error" -> System.out.println(begin + " - end date beyond 3 months.");
         }
+
+        Date begin = new Date(dataToken[1]);
+        Date end = new Date(dataToken[2]);
+        String plate = dataToken[3];
+        String employeeName = dataToken[4];
+
+        if(begin.isValid())
+
+        /**Booking tempBooking = new Booking(begin, end, null, null);
+        if(tempBooking.validateBookingDate() != null){
+            printInvalidBookingDate(tempBooking);
+            return;
+        }
+        else{
+            Vehicle tempVehicle = new Vehicle(plate, null, null, 0);
+            if(!fleet.contains(tempVehicle)){
+                printNotInFleetMessage(tempVehicle);
+                return;
+            }
+            else{
+                if(bookings.isVehicleConflict(begin, end, plate)){
+                    printVehicleConflictMessage(plate, begin, end);
+                    return;
+                }
+                else {
+                    if (!isValidEmployee(employeeName)){
+                        printInvalidEmployeeMessage(employeeName);
+                        return;
+                    }
+                    else {
+                        if (bookings.isEmployeeConflict(begin, end, employeeName) != null) {
+                            printEmployeeConflictMessage(employeeName, bookings.isEmployeeConflict(begin, end, employeeName));
+                            return;
+                        } else {
+                            tempBooking = null;
+                            tempVehicle = null;
+                            Booking newBooking = new Booking(begin, end, plate, employeeName);
+                        }
+                    }
+                }
+            }
+        }**/
+
     }
 
     public static void cancelBooking(String[] dataToken) {

@@ -87,9 +87,11 @@ public class Booking {
         return null;
     }
 
+
     public boolean isEmployeeConflict(){
         return true;
     }
+
 
     @Override
     public boolean equals(Object comparison) {
