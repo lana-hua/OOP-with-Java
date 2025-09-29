@@ -1,3 +1,5 @@
+import java.util.Calendar;
+
 public class Reservation {
     private Booking[] bookings;
     private int size;
@@ -65,6 +67,84 @@ public class Reservation {
         for (int i = 0; i < bookings.length; i++) {
             if (bookings[i].getEnd().equals(end) && (bookings[i].getVehicle().getPlate().equals(plate))) {
                 return bookings[i];
+            }
+        }
+        return null;
+    }
+
+    public boolean isVehicleConflict(Date begin, Date end, String plate) {
+        Calendar testStart = Calendar.getInstance();
+        testStart.set(Calendar.DAY_OF_MONTH, begin.getDay());
+        testStart.set(Calendar.MONTH, begin.getMonth() - 1);
+        testStart.set(Calendar.YEAR, begin.getYear());
+
+        Calendar testEnd = Calendar.getInstance();
+        testEnd.set(Calendar.DAY_OF_MONTH, end.getDay());
+        testEnd.set(Calendar.MONTH, end.getMonth() - 1);
+        testEnd.set(Calendar.YEAR, end.getYear());
+
+        Calendar bookingStart = Calendar.getInstance();
+        Calendar bookingEnd = Calendar.getInstance();
+
+        for (int i = 0; i < bookings.length; i++) {
+            if (bookings[i].getVehicle().getPlate() == plate) {
+                bookingStart.set(Calendar.DAY_OF_MONTH, bookings[i].getBegin().getDay());
+                bookingStart.set(Calendar.MONTH, bookings[i].getBegin().getMonth() - 1);
+                bookingStart.set(Calendar.YEAR, bookings[i].getBegin().getYear());
+
+                bookingEnd.set(Calendar.DAY_OF_MONTH, bookings[i].getEnd().getDay());
+                bookingEnd.set(Calendar.MONTH, bookings[i].getEnd().getMonth() - 1);
+                bookingEnd.set(Calendar.YEAR, bookings[i].getEnd().getYear());
+
+                boolean isStartWithinRange = testStart.after(bookingStart) && testStart.before(bookingEnd);
+                boolean isEndWithinRange = testEnd.after(bookingStart) && testEnd.before(bookingEnd);
+                boolean isBookedStartWithinRange = bookingStart.after(testStart) && bookingStart.before(testEnd);
+                boolean isBookedEndWithinRange = bookingEnd.after(testStart) && bookingEnd.before(testEnd);
+
+                if ((isStartWithinRange) || (isEndWithinRange) || (isBookedStartWithinRange) || (isBookedEndWithinRange)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+
+    public Date isEmployeeConflict(Date begin, Date end, String employee) {
+        Calendar testStart = Calendar.getInstance();
+        testStart.set(Calendar.DAY_OF_MONTH, begin.getDay());
+        testStart.set(Calendar.MONTH, begin.getMonth() - 1);
+        testStart.set(Calendar.YEAR, begin.getYear());
+
+        Calendar testEnd = Calendar.getInstance();
+        testEnd.set(Calendar.DAY_OF_MONTH, end.getDay());
+        testEnd.set(Calendar.MONTH, end.getMonth() - 1);
+        testEnd.set(Calendar.YEAR, end.getYear());
+
+        Calendar bookingStart = Calendar.getInstance();
+        Calendar bookingEnd = Calendar.getInstance();
+
+        for (int i = 0; i < bookings.length; i++) {
+            if (bookings[i].getEmployee().name().equals(employee)) {
+                bookingStart.set(Calendar.DAY_OF_MONTH, bookings[i].getBegin().getDay());
+                bookingStart.set(Calendar.MONTH, bookings[i].getBegin().getMonth() - 1);
+                bookingStart.set(Calendar.YEAR, bookings[i].getBegin().getYear());
+
+                bookingEnd.set(Calendar.DAY_OF_MONTH, bookings[i].getEnd().getDay());
+                bookingEnd.set(Calendar.MONTH, bookings[i].getEnd().getMonth() - 1);
+                bookingEnd.set(Calendar.YEAR, bookings[i].getEnd().getYear());
+
+                boolean isStartWithinRange = testStart.after(bookingStart) && testStart.before(bookingEnd);
+                boolean isEndWithinRange = testEnd.after(bookingStart) && testEnd.before(bookingEnd);
+                boolean isBookedStartWithinRange = bookingStart.after(testStart) && bookingStart.before(testEnd);
+                boolean isBookedEndWithinRange = bookingEnd.after(testStart) && bookingEnd.before(testEnd);
+
+                if ((isStartWithinRange) || (isEndWithinRange) || (isBookedStartWithinRange) || (isBookedEndWithinRange)) {
+                    return bookings[i].getBegin();
+                } else {
+                    return null;
+                }
             }
         }
         return null;
