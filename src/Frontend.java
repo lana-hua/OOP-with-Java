@@ -93,9 +93,10 @@ public class Frontend {
         System.out.println(invalid_command);
     }
 
-    public static void printTodayOrFuture(String dateInput){
+    public static void printTodayOrFuture(String dateInput) {
         String invalid_command = dateInput + " - is today or a future date.";
         System.out.println(invalid_command);
+    }
 
     public static void printInvalidEmployeeMessage(String employee) {
         String invalidEmployeeMessage = employee + " - not an eligible employee to book.";
