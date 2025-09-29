@@ -55,6 +55,7 @@ public class Date implements Comparable<Date> {
         }
     }
 
+
     public boolean isTodayOrFuture(){
         Calendar today = Calendar.getInstance();
         Date todaysDate = new Date((today.get(Calendar.MONTH)+1), (today.get(Calendar.DAY_OF_MONTH)), (today.get(Calendar.YEAR)));
@@ -66,6 +67,19 @@ public class Date implements Comparable<Date> {
         else {
             return false;
         }
+    }
+
+    public boolean isBookingDateValid(String type, Date date) {
+        if (!date.isValid()) {
+            if (type == "begin") {
+                Frontend.printBeginErrorMessage("Valid Error", date);
+                return false;
+            } else if (type == "end") {
+                Frontend.printEndErrorMessage("Valid Error", date);
+                return false;
+            }
+        }
+        return true;
     }
 
     public boolean isValid() {
@@ -91,6 +105,44 @@ public class Date implements Comparable<Date> {
         }
 
         return (day <= maxDays);
+    }
+
+    public boolean isWithin3Months(){
+        Calendar today = Calendar.getInstance();
+        Date todaysDate = new Date((today.get(Calendar.MONTH)+1), (today.get(Calendar.DAY_OF_MONTH)), (today.get(Calendar.YEAR)));
+
+        Calendar threeMonthsLater = (Calendar) today.clone();
+        threeMonthsLater.add(Calendar.MONTH, 3);
+        Date threeMonthsLaterDate = new Date((threeMonthsLater.get(Calendar.MONTH)+1), (threeMonthsLater.get(Calendar.DAY_OF_MONTH)), (threeMonthsLater.get(Calendar.YEAR)));
+
+        if ((this.compareTo(todaysDate) >= 0) && (this.compareTo(threeMonthsLaterDate) <= 0)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public boolean isWithin7Days(Date begin, Date end){
+        Calendar bookingStart = Calendar.getInstance();
+        bookingStart.set(Calendar.DAY_OF_MONTH, begin.getDay());
+        bookingStart.set(Calendar.MONTH, begin.getMonth() - 1);
+        bookingStart.set(Calendar.YEAR, begin.getYear());
+
+        Calendar bookingEnd = Calendar.getInstance();
+        bookingEnd.set(Calendar.DAY_OF_MONTH, end.getDay());
+        bookingEnd.set(Calendar.MONTH, end.getMonth() - 1);
+        bookingEnd.set(Calendar.YEAR, end.getYear());
+
+        long durationMsec = bookingEnd.getTimeInMillis() - bookingStart.getTimeInMillis();
+        long durationDays = durationMsec / (1000 * 60 * 60 * 24);
+
+        if ((durationDays >= 0) && (durationDays <=7)){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     public Date(String dateInput) {

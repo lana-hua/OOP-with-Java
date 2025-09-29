@@ -104,7 +104,24 @@ public class Frontend {
     }
 
     public static void bookVehicle(String[] dataToken) {
+        if (Booking.isValidBookingDate(dataToken)) {
 
+        } else {return;}
+    }
+
+    public static void printBeginErrorMessage(String errorType, Date begin) {
+        switch (errorType) {
+            case "Valid Error" -> System.out.println(begin + " - beginning date is not a valid calendar date.");
+            case "Today or Future Error" -> System.out.println(begin + " - beginning date is not today or a future date.");
+            case "Beyond 3 Months Error" -> System.out.println(begin + " - beginning date beyond 3 months.");
+        }
+    }
+    public static void printEndErrorMessage(String errorType, Date begin, Date end) {
+        switch (errorType) {
+            case "Valid Error" -> System.out.println(begin + " - end date is not a valid calendar date.");
+            case "Equal to or Later Error" -> System.out.println(end + " - ending date must be equal or after the beginning date" + begin);
+            case "Beyond 3 Months Error" -> System.out.println(begin + " - end date beyond 3 months.");
+        }
     }
 
     public static void cancelBooking(String[] dataToken) {
@@ -136,7 +153,7 @@ public class Frontend {
             String invalidMileageMessage = "Invalid mileage - current mileage: " + bookings.findBookingForReturnVehicle(returnDate,plate).getVehicle().getMileage() + " entered mileage: " + mileage;
             System.out.println(invalidMileageMessage);
             return;
-            
+
         } else {
             Booking booking = bookings.findBookingForReturnVehicle(returnDate,plate);
 

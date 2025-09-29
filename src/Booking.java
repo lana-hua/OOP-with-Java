@@ -29,43 +29,31 @@ public class Booking {
         return employee;
     }
 
-    public boolean isWithin3Months(){
-        Calendar today = Calendar.getInstance();
-        Date todaysDate = new Date((today.get(Calendar.MONTH)+1), (today.get(Calendar.DAY_OF_MONTH)), (today.get(Calendar.YEAR)));
+    public static boolean isValidBookingDate(String[] dataToken) {
+        Date begin = new Date(dataToken[1]);
+        Date end = new Date(dataToken[2]);
 
-        Calendar threeMonthsLater = (Calendar) today.clone();
-        threeMonthsLater.add(Calendar.MONTH, 3);
-        Date threeMonthsLaterDate = new Date((threeMonthsLater.get(Calendar.MONTH)+1), (threeMonthsLater.get(Calendar.DAY_OF_MONTH)), (threeMonthsLater.get(Calendar.YEAR)));
-
-        if ((begin.compareTo(todaysDate) >= 0) && (begin.compareTo(threeMonthsLaterDate) <= 0)){
-            return true;
-        }
-        else{
+        if (!begin.isBookingDateValid("begin", begin)) {
             return false;
+        } else if (begin.isTodayOrFuture()) {
+            Frontend.printBeginErrorMessage("Today or Future Error", begin);
+            return false;
+        } else if (!begin.isWithin3Months()) {
+            Frontend.printBeginErrorMessage("Beyond 3 Months Error", begin);
+            return false;
+        } else if (!end.isBookingDateValid("end", end)) {
+            return false;
+        } else if (end.compareTo(begin) < 0) {
+            Frontend.printEndErrorMessage("Equal to or Later Error", begin, end);
         }
+        return true;
+//        else if (begin.isWithin3Months()) return false;
+//        else if (!end.isValid() || end.compareTo(begin) > 0) { return false;}
+//        else {return true;}
     }
 
-    public boolean isWithin7Days(){
-        Calendar bookingStart = Calendar.getInstance();
-        bookingStart.set(Calendar.DAY_OF_MONTH, this.begin.getDay());
-        bookingStart.set(Calendar.MONTH, this.begin.getMonth() - 1);
-        bookingStart.set(Calendar.YEAR, this.begin.getYear());
 
-        Calendar bookingEnd = Calendar.getInstance();
-        bookingEnd.set(Calendar.DAY_OF_MONTH, this.end.getDay());
-        bookingEnd.set(Calendar.MONTH, this.end.getMonth() - 1);
-        bookingEnd.set(Calendar.YEAR, this.end.getYear());
 
-        long durationMsec = bookingEnd.getTimeInMillis() - bookingStart.getTimeInMillis();
-        long durationDays = durationMsec / (1000 * 60 * 60 * 24);
-
-        if ((durationDays >= 0) && (durationDays <=7)){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
 
     public String validateBookingDate(){
         if (!begin.isValid()){
@@ -88,19 +76,19 @@ public class Booking {
             return (end + " - ending date must be equal or after the beginning date " + begin);
         }
 
-        if (!isWithin3Months()){
+        if (!begin.isWithin3Months()){
             return (begin + " - beginning date beyond 3 months.");
         }
 
-        if (!isWithin7Days()){
-            return (begin + " ~ " + end  + " - duration more than a week.");
-        }
+//        if (!isWithin7Days()){
+//            return (begin + " ~ " + end  + " - duration more than a week.");
+//        }
 
         return null;
     }
 
     public boolean isEmployeeConflict(){
-
+        return true;
     }
 
     @Override
