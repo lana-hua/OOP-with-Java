@@ -78,10 +78,10 @@ public class Date implements Comparable<Date> {
     public boolean isBookingDateValid(String type, Date date) {
         if (!date.isValid()) {
             if (type == "begin") {
-                Frontend.printBeginErrorMessage("Valid Error", date);
+                Frontend.printBeginDateErrorMessage("Valid Error", date);
                 return false;
             } else if (type == "end") {
-                Frontend.printEndErrorMessage("Valid Error", date, date);
+                Frontend.printEndDateErrorMessage("Valid Error", date, date);
                 return false;
             }
         }

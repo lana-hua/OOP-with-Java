@@ -4,11 +4,12 @@ public enum Employee {
     Zimnes ("Computer Science"),
     Harper ("Electrical Engineering"),
     Kaur ("Information Technology and Informatics"),
-    Taylor ("Math"),
-    Ramesh ("Math"),
+    Taylor ("Mathematics"),
+    Ramesh ("Mathematics"),
     Ceravolo ("Business Analytics and Information Technology");
 
     private String department;
+
 
     public String getDepartment(){
         return department;

@@ -14,7 +14,10 @@ public class TripList {
     }
 
     public void print() {
-        if (last == null) {return;}
+        if (last == null) {
+            System.out.println("There is no archived trips.");
+            return;
+        }
 
         int length = 0;
         Node ptr = last.next;
