@@ -24,13 +24,13 @@ public class Frontend {
             String[] dataToken = input.split("\\s+");
             String command = dataToken[0];
 
-            command_check(command, dataToken);
+            checkCommand(command, dataToken);
         }
 
         scanner.close();
     }
 
-    public static void command_check(String command, String[] dataToken) {
+    public static void checkCommand(String command, String[] dataToken) {
         switch (command) {
             case "A" -> addVehicle(dataToken);
             case "D" -> removeVehicle(dataToken);
@@ -58,12 +58,12 @@ public class Frontend {
         } else { return; }
     }
 
-    public static void invalidMileageMessage(int mileage) {
+    public static void printInvalidMileageMessage(int mileage) {
         String invalidMileageMessage = mileage + " - invalid mileage.";
         System.out.println(invalidMileageMessage);
     }
 
-    public static void invalidMakeMessage(String make) {
+    public static void printInvalidMakeMessage(String make) {
         String invalidMake = make + " - invalid make.";
         System.out.println(invalidMake);
     }
@@ -74,17 +74,17 @@ public class Frontend {
         fleet.remove(temp);
     }
 
-    public static void notInFleetMessage(Vehicle vehicle) {
+    public static void printNotInFleetMessage(Vehicle vehicle) {
         String notInFleetMessage = vehicle.getPlate() + " is not in the fleet.";
         System.out.println(notInFleetMessage);
     }
 
-    public static void removedMessage(Vehicle vehicle) {
+    public static void printRemovedVehicleMessage(Vehicle vehicle) {
         String removedMessage = vehicle.toString() + " has been removed from the fleet.";
         System.out.println(removedMessage);
     }
 
-    public static void noVehicleInFleet() {
+    public static void printNoVehicleInFleet() {
         System.out.println("There is no vehicle in the fleet.");
     }
 
@@ -96,6 +96,10 @@ public class Frontend {
     public static void printTodayOrFuture(String dateInput){
         String invalid_command = dateInput + " - is today or a future date.";
         System.out.println(invalid_command);
+
+    public static void printInvalidEmployeeMessage(String employee) {
+        String invalidEmployeeMessage = employee + " - not an eligible employee to book.";
+        System.out.println(invalidEmployeeMessage);
     }
 
     public static void bookVehicle(String[] dataToken) {

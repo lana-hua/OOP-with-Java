@@ -11,7 +11,7 @@ public enum Make {
                 return true;
             }
             default -> {
-                Frontend.invalidMakeMessage(make);
+                Frontend.printInvalidMakeMessage(make);
                 return false;
             }
         }
