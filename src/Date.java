@@ -75,7 +75,7 @@ public class Date implements Comparable<Date> {
                 Frontend.printBeginErrorMessage("Valid Error", date);
                 return false;
             } else if (type == "end") {
-                Frontend.printEndErrorMessage("Valid Error", date);
+                Frontend.printEndErrorMessage("Valid Error", date, date);
                 return false;
             }
         }
@@ -137,12 +137,23 @@ public class Date implements Comparable<Date> {
         long durationMsec = bookingEnd.getTimeInMillis() - bookingStart.getTimeInMillis();
         long durationDays = durationMsec / (1000 * 60 * 60 * 24);
 
-        if ((durationDays >= 0) && (durationDays <=7)){
+        if ((durationDays >= 0) && (durationDays < 7)){
             return true;
         }
         else{
             return false;
         }
+    }
+
+    public boolean isCalendarDateValid(String date) {
+        if (!isValid()){
+            Frontend.printInvalidDate(date);
+            return false;
+        } else if ((isTodayOrFuture())) {
+            Frontend.printTodayOrFuture(date);
+            return false;
+        }
+        return true;
     }
 
     public Date(String dateInput) {
@@ -153,13 +164,6 @@ public class Date implements Comparable<Date> {
             this.day = Integer.parseInt(dateSections[1]);
             this.year = Integer.parseInt(dateSections[2]);
 
-            if (!isValid()){
-                Frontend.printInvalidDate(dateInput);
-            }
-
-            if ((isTodayOrFuture())) {
-                Frontend.printTodayOrFuture(dateInput);
-            }
         }
         else {
             Frontend.printInvalidDate(dateInput);

@@ -88,40 +88,50 @@ public class Frontend {
         System.out.println("There is no vehicle in the fleet.");
     }
 
-    public static void printInvalidDate(String dateInput){
-        String invalidDateMessage = dateInput + " - invalid calendar date.";
+    public static void printInvalidDate(String date){
+        String invalidDateMessage = date + " - invalid calendar date.";
         System.out.println(invalidDateMessage);
     }
 
-    public static void printTodayOrFuture(String dateInput) {
-        String invalid_command = dateInput + " - is today or a future date.";
+    public static void printTodayOrFuture(String date) {
+        String invalid_command = date + " - is today or a future date.";
         System.out.println(invalid_command);
     }
 
-    public static void printInvalidEmployeeMessage(String employee) {
-        String invalidEmployeeMessage = employee + " - not an eligible employee to book.";
-        System.out.println(invalidEmployeeMessage);
-    }
+//    public static void printInvalidEmployeeMessage(String employee) {
+//        String invalidEmployeeMessage = employee + " - not an eligible employee to book.";
+//        System.out.println(invalidEmployeeMessage);
+//    }
 
-    public static void printVehicleConflictMessage(String plate, Date begin, Date end) {
-        String vehicleConflictMessage = plate + " - booking with " + begin + " ~ " + end + " not available.";
-        System.out.println(vehicleConflictMessage);
-    }
+//    public static void printVehicleConflictMessage(String plate, Date begin, Date end) {
+//        String vehicleConflictMessage = plate + " - booking with " + begin + " ~ " + end + " not available.";
+//        System.out.println(vehicleConflictMessage);
+//    }
 
-    public static void printEmployeeConflictMessage(String employee, Date begin) {
-        String employeeConflictMessage = employee + " - has an existing booking conflicting with the beginning date " + begin;
-        System.out.println(employeeConflictMessage);
-    }
-
-    public static void printInvalidBookingDate(Booking booking) {
-        String invalidBookingDate = booking.validateBookingDate();
-        System.out.println(invalidBookingDate);
-    }
+//    public static void printEmployeeConflictMessage(String employee, Date begin) {
+//        String employeeConflictMessage = employee + " - has an existing booking conflicting with the beginning date " + begin;
+//        System.out.println(employeeConflictMessage);
+//    }
+//
+//    public static void printInvalidBookingDate(Booking booking) {
+//        String invalidBookingDate = booking.validateBookingDate();
+//        System.out.println(invalidBookingDate);
+//    }
 
     public static void bookVehicle(String[] dataToken) {
 
-        if (Booking.isValidBookingDate(dataToken)) {
+        if (Booking.isValidBookingDate(dataToken) && Booking.isValidBooking(dataToken)) {
+            Date begin = new Date(dataToken[1]);
+            Date end = new Date(dataToken[2]);
+            String plate = dataToken[3];
+            Vehicle vehicle = fleet.getVehicle(plate);
+            Employee employeeName = Employee.valueOf(dataToken[4].substring(0, 1).toUpperCase() + dataToken[4].toLowerCase().substring(1));
 
+
+            Booking newBooking = new Booking(begin, end, vehicle, employeeName);
+            bookings.add(newBooking);
+
+            System.out.println(newBooking.toString() + " booked.");
         } else {return;}
     }
 
@@ -132,55 +142,22 @@ public class Frontend {
             case "Beyond 3 Months Error" -> System.out.println(begin + " - beginning date beyond 3 months.");
         }
     }
+
     public static void printEndErrorMessage(String errorType, Date begin, Date end) {
         switch (errorType) {
-            case "Valid Error" -> System.out.println(begin + " - end date is not a valid calendar date.");
-            case "Equal to or Later Error" -> System.out.println(end + " - ending date must be equal or after the beginning date" + begin);
-            case "Beyond 3 Months Error" -> System.out.println(begin + " - end date beyond 3 months.");
+            case "Valid Error" -> System.out.println(begin + " - ending date is not a valid calendar date.");
+            case "Equal to or Later Error" -> System.out.println(end + " - ending date must be equal or after the beginning date " + begin);
+            case "More than a Week Error" -> System.out.println(begin + " ~ " + end + " - duration more than a week");
         }
+    }
 
-        Date begin = new Date(dataToken[1]);
-        Date end = new Date(dataToken[2]);
-        String plate = dataToken[3];
-        String employeeName = dataToken[4];
-
-        if(begin.isValid())
-
-        /**Booking tempBooking = new Booking(begin, end, null, null);
-        if(tempBooking.validateBookingDate() != null){
-            printInvalidBookingDate(tempBooking);
-            return;
+    public static void printInvalidBookingMessage(String errorType, String plate, String employee, Date begin, Date end) {
+        switch (errorType) {
+            case "Vehicle does not Exist Error" -> System.out.println(plate + " is not in the fleet.");
+            case "Vehicle not Available Error" -> System.out.println(plate + " - booking with " + begin + " ~ " + end + " not available.");
+            case "Employee not Eligible Error" -> System.out.println(employee + " - not an eligible employee to book.");
+            case "Employee Conflict Error" -> System.out.println(employee + " - has an existing booking conflicting with the beginning date " + begin);
         }
-        else{
-            Vehicle tempVehicle = new Vehicle(plate, null, null, 0);
-            if(!fleet.contains(tempVehicle)){
-                printNotInFleetMessage(tempVehicle);
-                return;
-            }
-            else{
-                if(bookings.isVehicleConflict(begin, end, plate)){
-                    printVehicleConflictMessage(plate, begin, end);
-                    return;
-                }
-                else {
-                    if (!isValidEmployee(employeeName)){
-                        printInvalidEmployeeMessage(employeeName);
-                        return;
-                    }
-                    else {
-                        if (bookings.isEmployeeConflict(begin, end, employeeName) != null) {
-                            printEmployeeConflictMessage(employeeName, bookings.isEmployeeConflict(begin, end, employeeName));
-                            return;
-                        } else {
-                            tempBooking = null;
-                            tempVehicle = null;
-                            Booking newBooking = new Booking(begin, end, plate, employeeName);
-                        }
-                    }
-                }
-            }
-        }**/
-
     }
 
     public static void cancelBooking(String[] dataToken) {

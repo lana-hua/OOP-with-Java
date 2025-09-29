@@ -12,6 +12,10 @@ public class Reservation {
         size = 0;
     }
 
+    public int getSize() {
+        return size;
+    }
+
     private int find(Booking booking) {
         if (contains(booking)) {
             for (int i = 0; i < size; i++){
@@ -86,15 +90,15 @@ public class Reservation {
         Calendar bookingStart = Calendar.getInstance();
         Calendar bookingEnd = Calendar.getInstance();
 
-        for (int i = 0; i < bookings.length; i++) {
-            if (bookings[i].getVehicle().getPlate() == plate) {
-                bookingStart.set(Calendar.DAY_OF_MONTH, bookings[i].getBegin().getDay());
-                bookingStart.set(Calendar.MONTH, bookings[i].getBegin().getMonth() - 1);
-                bookingStart.set(Calendar.YEAR, bookings[i].getBegin().getYear());
+        for (int i = 0; i < Frontend.bookings.getSize(); i++) {
+            if (Frontend.bookings.bookings[i].getVehicle().getPlate().equals(plate)) {
+                bookingStart.set(Calendar.DAY_OF_MONTH, Frontend.bookings.bookings[i].getBegin().getDay());
+                bookingStart.set(Calendar.MONTH, Frontend.bookings.bookings[i].getBegin().getMonth() - 1);
+                bookingStart.set(Calendar.YEAR, Frontend.bookings.bookings[i].getBegin().getYear());
 
-                bookingEnd.set(Calendar.DAY_OF_MONTH, bookings[i].getEnd().getDay());
-                bookingEnd.set(Calendar.MONTH, bookings[i].getEnd().getMonth() - 1);
-                bookingEnd.set(Calendar.YEAR, bookings[i].getEnd().getYear());
+                bookingEnd.set(Calendar.DAY_OF_MONTH, Frontend.bookings.bookings[i].getEnd().getDay());
+                bookingEnd.set(Calendar.MONTH, Frontend.bookings.bookings[i].getEnd().getMonth() - 1);
+                bookingEnd.set(Calendar.YEAR, Frontend.bookings.bookings[i].getEnd().getYear());
 
                 boolean isStartWithinRange = testStart.after(bookingStart) && testStart.before(bookingEnd);
                 boolean isEndWithinRange = testEnd.after(bookingStart) && testEnd.before(bookingEnd);
@@ -125,15 +129,15 @@ public class Reservation {
         Calendar bookingStart = Calendar.getInstance();
         Calendar bookingEnd = Calendar.getInstance();
 
-        for (int i = 0; i < bookings.length; i++) {
-            if (bookings[i].getEmployee().name().equals(employee)) {
-                bookingStart.set(Calendar.DAY_OF_MONTH, bookings[i].getBegin().getDay());
-                bookingStart.set(Calendar.MONTH, bookings[i].getBegin().getMonth() - 1);
-                bookingStart.set(Calendar.YEAR, bookings[i].getBegin().getYear());
+        for (int i = 0; i < Frontend.bookings.getSize(); i++) {
+            if (Frontend.bookings.bookings[i].getEmployee().name().equals(employee)) {
+                bookingStart.set(Calendar.DAY_OF_MONTH, Frontend.bookings.bookings[i].getBegin().getDay());
+                bookingStart.set(Calendar.MONTH, Frontend.bookings.bookings[i].getBegin().getMonth() - 1);
+                bookingStart.set(Calendar.YEAR, Frontend.bookings.bookings[i].getBegin().getYear());
 
-                bookingEnd.set(Calendar.DAY_OF_MONTH, bookings[i].getEnd().getDay());
-                bookingEnd.set(Calendar.MONTH, bookings[i].getEnd().getMonth() - 1);
-                bookingEnd.set(Calendar.YEAR, bookings[i].getEnd().getYear());
+                bookingEnd.set(Calendar.DAY_OF_MONTH, Frontend.bookings.bookings[i].getEnd().getDay());
+                bookingEnd.set(Calendar.MONTH, Frontend.bookings.bookings[i].getEnd().getMonth() - 1);
+                bookingEnd.set(Calendar.YEAR, Frontend.bookings.bookings[i].getEnd().getYear());
 
                 boolean isStartWithinRange = testStart.after(bookingStart) && testStart.before(bookingEnd);
                 boolean isEndWithinRange = testEnd.after(bookingStart) && testEnd.before(bookingEnd);
@@ -141,13 +145,14 @@ public class Reservation {
                 boolean isBookedEndWithinRange = bookingEnd.after(testStart) && bookingEnd.before(testEnd);
 
                 if ((isStartWithinRange) || (isEndWithinRange) || (isBookedStartWithinRange) || (isBookedEndWithinRange)) {
-                    return bookings[i].getBegin();
+                    return Frontend.bookings.bookings[i].getBegin();
                 } else {
                     return null;
                 }
             }
         }
         return null;
+    }
 
     //given ending date find the earliest end date, if matches return true else return false
     public boolean isReturnEarliestEnd(Date returnDate) {

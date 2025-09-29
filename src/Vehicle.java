@@ -74,9 +74,7 @@ public class Vehicle implements Comparable<Vehicle> {
         int mileage = Integer.parseInt(dataToken[4]);
 
         //check date
-        if (!obtained.isValid()) {
-            return false;
-        } else if (obtained.isTodayOrFuture()) {
+        if (!obtained.isCalendarDateValid(dataToken[2])) {
             return false;
         } else if (!Make.isValidMake(dataToken[3])) {
             return false;
