@@ -1,7 +1,6 @@
 /**
- First, a single, very descriptive sentence describing the class.
- Then, additional lines of description are added to elaborate on the
- details if necessary.
+ The Booking class manages vehicle reservations made by an employee for specific dates
+ It allows the user to obtain information including dates, vehicle details, and employee details while also checking validity of the dates.
  @author Sharon Chen
  */
 
@@ -13,6 +12,13 @@ public class Booking {
     private Vehicle vehicle;
     private Employee employee;
 
+    /**
+     * Constructs a Booking object with the specified start date, end date, vehicle, and employee.
+     * @param begin the start date of the booking period
+     * @param end the end date of the booking period
+     * @param vehicle the vehicle assigned to this booking
+     * @param employee the employee who made this booking
+     */
     public Booking(Date begin, Date end, Vehicle vehicle, Employee employee){
         this.begin = begin;
         this.end = end;
@@ -20,32 +26,44 @@ public class Booking {
         this.employee = employee;
     }
 
+    /**
+     * Returns the start date of this booking period.
+     * @return the begin date of the booking
+     */
     public Date getBegin(){
         return begin;
     }
 
+    /**
+     * Returns the end date of this booking period.
+     * @return the end date of the booking
+     */
     public Date getEnd(){
         return end;
     }
 
+    /**
+     * Returns the vehicle assigned to this booking.
+     * @return the vehicle for this booking
+     */
     public Vehicle getVehicle(){
         return vehicle;
     }
 
+    /**
+     * Returns the employee who made this booking.
+     * @return the employee associated with this booking
+     */
     public Employee getEmployee(){
         return employee;
     }
-//The license plate number does not exist in the fleet.
-//6. The vehicle associated with the license plate number is not available for the dates entered.
-//7. The employee is not eligible to book a vehicle.
-//8. The employee has an existing booking conflicting with the dates entered.
 
-//     switch (errorType) {
-//            case "Vehicle does not Exist Error" -> System.out.println(plate + " is not in the fleet.");
-//            case "Vehicle not Available Error" -> System.out.println(plate + " - booking with " + begin + " ~ " + end + " not available.");
-//            case "Employee not Eligible Error" -> System.out.println(employee + " - not an eligible employee to book.");
-//            case "Employee Conflict Error" -> System.out.println(employee + " - has an existing booking conflicting with the beginning date " + begin);
-//        }
+    /**
+     * Validates whether a booking request meets all business rules and constraints.
+     * Checks for vehicle existence, vehicle availability, employee eligibility, and scheduling conflicts.
+     * @param dataToken the array containing booking data tokens
+     * @return true if all validation criteria are met for the booking to be created, false otherwise
+     */
     public static boolean isValidBooking(String[] dataToken) {
         String plate = dataToken[3];
         Vehicle vehicle = new Vehicle(plate);
@@ -69,6 +87,12 @@ public class Booking {
         return true;
     }
 
+    /**
+     * Validates the date parameters for a booking request to ensure they meet scheduling date requirements.
+     * Checks that dates are valid, are today or in the future, within three months, are after begin dates, or within a seven-day maximum booking period.
+     * @param dataToken the array containing booking data tokens with date information
+     * @return true if all date validation rules are satisfied, false otherwise
+     */
     public static boolean isValidBookingDate(String[] dataToken) {
         Date begin = new Date(dataToken[1]);
         Date end = new Date(dataToken[2]);
@@ -93,7 +117,11 @@ public class Booking {
         return true;
     }
 
-
+    /**
+     * Compares if the Booking object is the same as the object given
+     * @param comparison the object to compare with the booking
+     * @return true if the objects are equal; return false otherwise
+     */
     @Override
     public boolean equals(Object comparison) {
         if (this == comparison) {
@@ -107,7 +135,10 @@ public class Booking {
         return ((this.begin == compareBooking.begin) && (this.end == compareBooking.end) && (this.vehicle == compareBooking.vehicle) && (this.employee == compareBooking.employee));
     }
 
-    //67359S:FORD:11/1/2019 [mileage:59644] [beginning 10/31/2025 ending 11/2/2025:KAUR]
+    /**
+     * Creates a string to represent the booking details
+     * @return a formatted string containing booking details including the vehicle license plate, booking dates, and employee details
+     */
     @Override
     public String toString(){
         return (vehicle.toString() + " [beginning " + begin + " ending " + end + ":" + employee + "]");
