@@ -138,53 +138,15 @@ public class Frontend {
             case "Equal to or Later Error" -> System.out.println(end + " - ending date must be equal or after the beginning date" + begin);
             case "Beyond 3 Months Error" -> System.out.println(begin + " - end date beyond 3 months.");
         }
-
-        Date begin = new Date(dataToken[1]);
-        Date end = new Date(dataToken[2]);
-        String plate = dataToken[3];
-        String employeeName = dataToken[4];
-
-        if(begin.isValid())
-
-        /**Booking tempBooking = new Booking(begin, end, null, null);
-        if(tempBooking.validateBookingDate() != null){
-            printInvalidBookingDate(tempBooking);
-            return;
-        }
-        else{
-            Vehicle tempVehicle = new Vehicle(plate, null, null, 0);
-            if(!fleet.contains(tempVehicle)){
-                printNotInFleetMessage(tempVehicle);
-                return;
-            }
-            else{
-                if(bookings.isVehicleConflict(begin, end, plate)){
-                    printVehicleConflictMessage(plate, begin, end);
-                    return;
-                }
-                else {
-                    if (!isValidEmployee(employeeName)){
-                        printInvalidEmployeeMessage(employeeName);
-                        return;
-                    }
-                    else {
-                        if (bookings.isEmployeeConflict(begin, end, employeeName) != null) {
-                            printEmployeeConflictMessage(employeeName, bookings.isEmployeeConflict(begin, end, employeeName));
-                            return;
-                        } else {
-                            tempBooking = null;
-                            tempVehicle = null;
-                            Booking newBooking = new Booking(begin, end, plate, employeeName);
-                        }
-                    }
-                }
-            }
-        }**/
-
     }
 
     public static void cancelBooking(String[] dataToken) {
+        Date begin = new Date(dataToken[1]);
+        Date end = new Date(dataToken[2]);
+        String plate = dataToken[3];
 
+        //is there a method that returns vehicle given the plate?
+        //for (int i = 0; i < bookings.getSize(); i++){}
     }
 
     //R 8/24/2025 58719D 87170
