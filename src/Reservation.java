@@ -60,6 +60,27 @@ public class Reservation {
         return false;
     }
 
+    //given ending date, plate, find if already in booking, return the booking
+    public Booking findBookingForReturnVehicle(Date end, String plate){
+        for (int i = 0; i < bookings.length; i++) {
+            if (bookings[i].getEnd().equals(end) && (bookings[i].getVehicle().getPlate().equals(plate))) {
+                return bookings[i];
+            }
+        }
+        return null;
+    }
+
+    //given ending date find the earliest end date, if matches return true else return false
+    public boolean isReturnEarliestEnd(Date returnDate) {
+        Date earliestDate = bookings[0].getEnd();
+        for (int i = 1; i < bookings.length; i++) {
+            if (bookings[i].getEnd().compareTo(earliestDate) < 1) {
+                earliestDate = bookings[i].getEnd();
+            }
+        }
+        return returnDate.compareTo(earliestDate) == 0;
+    }
+
     //PR Command
     public void printByVehicle(){
         if (size == 0) {
@@ -130,4 +151,5 @@ public class Reservation {
         }
         System.out.println("*end of list.");
     } //ordered by department then by employee
+
 }
