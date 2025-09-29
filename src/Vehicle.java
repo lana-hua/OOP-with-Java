@@ -10,8 +10,27 @@ public class Vehicle implements Comparable<Vehicle> {
     private Make make; //Make is an enum class
     private int mileage; //current reading on the odometer
 
+    public Vehicle(String plate) {
+        this.plate = plate;
+        this.obtained = null;
+        this.make = null;
+        this.mileage = 0;
+    }
+
+    public int getMileage() {
+        return mileage;
+    }
+
     public String getPlate() {
         return plate;
+    }
+
+    public Make getMake() {
+        return make;
+    }
+
+    public Date getDate() {
+        return obtained;
     }
 
     /**
@@ -73,11 +92,11 @@ public class Vehicle implements Comparable<Vehicle> {
             return true;
         }
         else {
-            String invalidMileage = mileage + " - invalid mileage!";
-            System.out.println(invalidMileage);
+            Frontend.invalidMileageMessage(mileage);
             return false;
         }
     }
+
 
     @Override
     public boolean equals(Object o) {
