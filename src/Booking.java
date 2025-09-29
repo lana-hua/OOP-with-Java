@@ -99,10 +99,6 @@ public class Booking {
         return null;
     }
 
-    public boolean isEmployeeConflict(){
-
-    }
-
     @Override
     public boolean equals(Object comparison) {
         if (this == comparison) {
