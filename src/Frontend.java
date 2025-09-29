@@ -88,6 +88,16 @@ public class Frontend {
         System.out.println("There is no vehicle in the fleet.");
     }
 
+    public static void printInvalidDate(String dateInput){
+        String invalid_command = dateInput + " - invalid calendar date.";
+        System.out.println(invalid_command);
+    }
+
+    public static void printTodayOrFuture(String dateInput){
+        String invalid_command = dateInput + " - is today or a future date.";
+        System.out.println(invalid_command);
+    }
+
     public static void bookVehicle(String[] dataToken) {
 
     }
