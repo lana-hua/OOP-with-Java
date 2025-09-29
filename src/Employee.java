@@ -35,4 +35,5 @@ public enum Employee {
     public String toString() {
         return name() + ": " + department;
     }
+
 }

@@ -21,6 +21,10 @@ public class Vehicle implements Comparable<Vehicle> {
         return mileage;
     }
 
+    public void setMileage(int mileage) {
+        this.mileage = mileage;
+    }
+
     public String getPlate() {
         return plate;
     }
