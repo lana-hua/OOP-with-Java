@@ -98,26 +98,6 @@ public class Frontend {
         System.out.println(invalid_command);
     }
 
-//    public static void printInvalidEmployeeMessage(String employee) {
-//        String invalidEmployeeMessage = employee + " - not an eligible employee to book.";
-//        System.out.println(invalidEmployeeMessage);
-//    }
-
-//    public static void printVehicleConflictMessage(String plate, Date begin, Date end) {
-//        String vehicleConflictMessage = plate + " - booking with " + begin + " ~ " + end + " not available.";
-//        System.out.println(vehicleConflictMessage);
-//    }
-
-//    public static void printEmployeeConflictMessage(String employee, Date begin) {
-//        String employeeConflictMessage = employee + " - has an existing booking conflicting with the beginning date " + begin;
-//        System.out.println(employeeConflictMessage);
-//    }
-//
-//    public static void printInvalidBookingDate(Booking booking) {
-//        String invalidBookingDate = booking.validateBookingDate();
-//        System.out.println(invalidBookingDate);
-//    }
-
     public static void bookVehicle(String[] dataToken) {
 
         if (Booking.isValidBookingDate(dataToken) && Booking.isValidBooking(dataToken)) {
@@ -160,11 +140,35 @@ public class Frontend {
         }
     }
 
+    public static void printValidCancelBookingMessage(Date begin, Date end, String plate) {
+        String validCancelBookingMessage = plate + ":" + begin + " ~ " + end + " - has been canceled.";
+        System.out.println(validCancelBookingMessage);
+    }
+
+    public static void printInvalidCancelBookingMessage(Date begin, Date end, String plate) {
+        String invalidCancelBookingMessage = plate + ":" +begin + " ~ " + end + " - cannot find the booking.";
+        System.out.println(invalidCancelBookingMessage);
+    }
+
     public static void cancelBooking(String[] dataToken) {
+        Date begin = new Date(dataToken[1]);
+        Date end = new Date(dataToken[2]);
+        String plate = dataToken[3];
+
+        if (!begin.isValid() || begin.isTodayOrFuture() || !end.isValid() || end.isTodayOrFuture()){
+            return;
+        }
+        else if (bookings.findBookingForCancelBooking(begin, end, plate) == null){
+            printInvalidCancelBookingMessage(begin, end, plate);
+            return;
+        }
+        else if (bookings.findBookingForCancelBooking(begin, end, plate) != null){
+            bookings.remove(bookings.findBookingForCancelBooking(begin, end, plate));
+            printValidCancelBookingMessage(begin, end, plate);
+        }
 
     }
 
-    //R 8/24/2025 58719D 87170
     public static void returnVehicle(String[] dataToken) {
         Date returnDate = new Date(dataToken[1]);
         String plate = dataToken[2];

@@ -1,3 +1,10 @@
+/**
+ First, a single, very descriptive sentence describing the class.
+ Then, additional lines of description are added to elaborate on the
+ details if necessary.
+ @author Sharon Chen
+ */
+
 import java.util.Calendar;
 
 public class Reservation {
@@ -12,7 +19,7 @@ public class Reservation {
         size = 0;
     }
 
-    public int getSize() {
+    public int getSize(){
         return size;
     }
 
@@ -69,7 +76,17 @@ public class Reservation {
     //given ending date, plate, find if already in booking, return the booking
     public Booking findBookingForReturnVehicle(Date end, String plate){
         for (int i = 0; i < bookings.length; i++) {
-            if (bookings[i].getEnd().equals(end) && (bookings[i].getVehicle().getPlate().equals(plate))) {
+            if ((bookings[i].getEnd().equals(end) && (bookings[i].getVehicle().getPlate().equals(plate)))) {
+                return bookings[i];
+            }
+        }
+        return null;
+    }
+
+    //given begin, ending date, plate, find if already in booking, return the booking
+    public Booking findBookingForCancelBooking(Date begin, Date end, String plate){
+        for (int i = 0; i < bookings.length; i++) {
+            if ((bookings[i].getBegin().equals(begin)) && (bookings[i].getEnd().equals(end) && (bookings[i].getVehicle().getPlate().equals(plate)))) {
                 return bookings[i];
             }
         }
@@ -89,6 +106,7 @@ public class Reservation {
 
         Calendar bookingStart = Calendar.getInstance();
         Calendar bookingEnd = Calendar.getInstance();
+
 
         for (int i = 0; i < Frontend.bookings.getSize(); i++) {
             if (Frontend.bookings.bookings[i].getVehicle().getPlate().equals(plate)) {
@@ -155,7 +173,7 @@ public class Reservation {
     }
 
     //given ending date find the earliest end date, if matches return true else return false
-    public boolean isReturnEarliestEnd(Date returnDate) {
+    public boolean isReturnEarliestEnd (Date returnDate){
         Date earliestDate = bookings[0].getEnd();
         for (int i = 1; i < bookings.length; i++) {
             if (bookings[i].getEnd().compareTo(earliestDate) < 1) {
@@ -166,19 +184,19 @@ public class Reservation {
     }
 
     //PR Command
-    public void printByVehicle(){
+    public void printByVehicle() {
         if (size == 0) {
             System.out.println("There is no booking record.");
             return;
         }
 
         //sorting by Vehicles in order
-        for (int i = 0; i < (size-1); i++){
+        for (int i = 0; i < (size - 1); i++) {
             for (int j = 0; j < (size - i - 1); j++) {
                 String plate1 = bookings[j].getVehicle().getPlate();
                 String plate2 = bookings[j + 1].getVehicle().getPlate();
 
-                if(plate1.compareTo(plate2) > 0){
+                if (plate1.compareTo(plate2) > 0) {
                     Booking temp = bookings[j];
                     bookings[j] = bookings[j + 1];
                     bookings[j + 1] = temp;
@@ -187,7 +205,7 @@ public class Reservation {
         }
         //prints out sorted list
         System.out.println("*List of reservations ordered by license plate number and beginning date.");
-        for (int i = 0; i < size; i++){
+        for (int i = 0; i < size; i++) {
             System.out.println(bookings[i].toString());
         }
         System.out.println("*end of list.");
@@ -200,21 +218,20 @@ public class Reservation {
             return;
         }
         //sorting by Department and Employees in order
-        for (int i = 0; i < (size-1); i++){
+        for (int i = 0; i < (size - 1); i++) {
             for (int j = 0; j < (size - i - 1); j++) {
                 String dept1 = bookings[j].getEmployee().getDepartment();
                 String dept2 = bookings[j + 1].getEmployee().getDepartment();
                 //sort departments
-                if(dept1.compareTo(dept2) > 0){
+                if (dept1.compareTo(dept2) > 0) {
                     Booking temp = bookings[j];
                     bookings[j] = bookings[j + 1];
                     bookings[j + 1] = temp;
-                }
-                else if (dept1.compareTo(dept2) == 0) {
+                } else if (dept1.compareTo(dept2) == 0) {
                     String emp1 = bookings[j].getEmployee().name();
                     String emp2 = bookings[j + 1].getEmployee().name();
                     //sort employees in department
-                    if(emp1.compareTo(emp2) > 0){
+                    if (emp1.compareTo(emp2) > 0) {
                         Booking temp = bookings[j];
                         bookings[j] = bookings[j + 1];
                         bookings[j + 1] = temp;
@@ -225,9 +242,9 @@ public class Reservation {
         //prints out sorted list
         System.out.println("*List of reservations ordered by department and employee.");
         String currentDept = "";
-        for (int i = 0; i < size; i++){
+        for (int i = 0; i < size; i++) {
             String bookingDept = bookings[i].getEmployee().getDepartment();
-            if(!bookingDept.equals(currentDept)) {
+            if (!bookingDept.equals(currentDept)) {
                 currentDept = bookingDept;
                 System.out.println("--" + currentDept + "--");
             }
@@ -235,5 +252,4 @@ public class Reservation {
         }
         System.out.println("*end of list.");
     } //ordered by department then by employee
-
 }
