@@ -135,13 +135,13 @@ public class Frontend {
         }
     }
 
-    public static void printValidCancelBookingMessage(Date begin, Date end) {
-        String validCancelBookingMessage = begin + " ~ " + end + " - has been cancelled.";
+    public static void printValidCancelBookingMessage(Date begin, Date end, String plate) {
+        String validCancelBookingMessage = plate + ":" + begin + " ~ " + end + " - has been canceled.";
         System.out.println(validCancelBookingMessage);
     }
 
-    public static void printInvalidCancelBookingMessage(Date begin, Date end) {
-        String invalidCancelBookingMessage = begin + " ~ " + end + " - cannot find the booking.";
+    public static void printInvalidCancelBookingMessage(Date begin, Date end, String plate) {
+        String invalidCancelBookingMessage = plate + ":" +begin + " ~ " + end + " - cannot find the booking.";
         System.out.println(invalidCancelBookingMessage);
     }
 
@@ -154,12 +154,12 @@ public class Frontend {
             return;
         }
         else if (bookings.findBookingForCancelBooking(begin, end, plate) == null){
-            printInvalidCancelBookingMessage(begin, end);
+            printInvalidCancelBookingMessage(begin, end, plate);
             return;
         }
         else if (bookings.findBookingForCancelBooking(begin, end, plate) != null){
             bookings.remove(bookings.findBookingForCancelBooking(begin, end, plate));
-            printValidCancelBookingMessage(begin, end);
+            printValidCancelBookingMessage(begin, end, plate);
         }
     }
 
