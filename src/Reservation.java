@@ -80,12 +80,21 @@ public class Reservation {
         return false;
     }
 
+    public boolean isVehicleBooked(String plate) {
+        for (int i = 0; i < Frontend.bookings.getSize(); i++) {
+            if (Frontend.bookings.bookings[i].getVehicle().getPlate().equals(plate)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     //given ending date, plate, find if already in booking, return the booking
     //Searches for a booking given the end date and license plate
     public Booking findBookingForReturnVehicle(Date end, String plate){
-        for (int i = 0; i < bookings.length; i++) {
-            if ((bookings[i].getEnd().equals(end) && (bookings[i].getVehicle().getPlate().equals(plate)))) {
-                return bookings[i];
+        for (int i = 0; i < Frontend.bookings.getSize(); i++) {
+            if ((Frontend.bookings.bookings[i].getEnd().equals(end) && (Frontend.bookings.bookings[i].getVehicle().getPlate().equals(plate)))) {
+                return Frontend.bookings.bookings[i];
             }
         }
         return null;
@@ -93,9 +102,9 @@ public class Reservation {
 
     //given begin, ending date, plate, find if already in booking, return the booking
     public Booking findBookingForCancelBooking(Date begin, Date end, String plate){
-        for (int i = 0; i < bookings.length; i++) {
-            if ((bookings[i].getBegin().equals(begin)) && (bookings[i].getEnd().equals(end) && (bookings[i].getVehicle().getPlate().equals(plate)))) {
-                return bookings[i];
+        for (int i = 0; i < Frontend.bookings.getSize(); i++) {
+            if ((Frontend.bookings.bookings[i].getBegin().equals(begin)) && (Frontend.bookings.bookings[i].getEnd().equals(end) && (Frontend.bookings.bookings[i].getVehicle().getPlate().equals(plate)))) {
+                return Frontend.bookings.bookings[i];
             }
         }
         return null;
@@ -115,9 +124,8 @@ public class Reservation {
         Calendar bookingStart = Calendar.getInstance();
         Calendar bookingEnd = Calendar.getInstance();
 
-
         for (int i = 0; i < Frontend.bookings.getSize(); i++) {
-            if (Frontend.bookings.bookings[i].getVehicle().getPlate().equals(plate)) {
+            if (Frontend.bookings.bookings[i].getVehicle().getPlate().equalsIgnoreCase(plate)) {
                 bookingStart.set(Calendar.DAY_OF_MONTH, Frontend.bookings.bookings[i].getBegin().getDay());
                 bookingStart.set(Calendar.MONTH, Frontend.bookings.bookings[i].getBegin().getMonth() - 1);
                 bookingStart.set(Calendar.YEAR, Frontend.bookings.bookings[i].getBegin().getYear());
@@ -130,11 +138,10 @@ public class Reservation {
                 boolean isEndWithinRange = testEnd.after(bookingStart) && testEnd.before(bookingEnd);
                 boolean isBookedStartWithinRange = bookingStart.after(testStart) && bookingStart.before(testEnd);
                 boolean isBookedEndWithinRange = bookingEnd.after(testStart) && bookingEnd.before(testEnd);
+                boolean isSame = testStart.equals(bookingStart) || testEnd.equals(bookingEnd) || testEnd.equals(bookingStart) || testStart.equals(bookingEnd);
 
-                if ((isStartWithinRange) || (isEndWithinRange) || (isBookedStartWithinRange) || (isBookedEndWithinRange)) {
+                if ((isStartWithinRange) || (isEndWithinRange) || (isBookedStartWithinRange) || (isBookedEndWithinRange) || (isSame)) {
                     return true;
-                } else {
-                    return false;
                 }
             }
         }
@@ -169,23 +176,24 @@ public class Reservation {
                 boolean isEndWithinRange = testEnd.after(bookingStart) && testEnd.before(bookingEnd);
                 boolean isBookedStartWithinRange = bookingStart.after(testStart) && bookingStart.before(testEnd);
                 boolean isBookedEndWithinRange = bookingEnd.after(testStart) && bookingEnd.before(testEnd);
+                boolean isBeginSame = testStart.equals(bookingStart);
+                boolean isEndSame = testEnd.equals(bookingEnd);
 
-                if ((isStartWithinRange) || (isEndWithinRange) || (isBookedStartWithinRange) || (isBookedEndWithinRange)) {
+                if ((isStartWithinRange) || (isEndWithinRange) || (isBookedStartWithinRange) || (isBookedEndWithinRange) || (isBeginSame) || (isEndSame)) {
                     return Frontend.bookings.bookings[i].getBegin();
-                } else {
-                    return null;
                 }
             }
         }
         return null;
     }
 
+
     //given ending date find the earliest end date, if matches return true else return false
     public boolean isReturnEarliestEnd (Date returnDate){
-        Date earliestDate = bookings[0].getEnd();
-        for (int i = 1; i < bookings.length; i++) {
-            if (bookings[i].getEnd().compareTo(earliestDate) < 1) {
-                earliestDate = bookings[i].getEnd();
+        Date earliestDate = Frontend.bookings.bookings[0].getEnd();
+        for (int i = 1; i < Frontend.bookings.getSize(); i++) {
+            if (Frontend.bookings.bookings[i].getEnd().compareTo(earliestDate) < 1) {
+                earliestDate = Frontend.bookings.bookings[i].getEnd();
             }
         }
         return returnDate.compareTo(earliestDate) == 0;
@@ -198,7 +206,7 @@ public class Reservation {
             return;
         }
 
-        //sorting by Vehicles in order
+        //sorting by Vehicles and Begin Dates in order
         for (int i = 0; i < (size - 1); i++) {
             for (int j = 0; j < (size - i - 1); j++) {
                 String plate1 = bookings[j].getVehicle().getPlate();
@@ -209,6 +217,16 @@ public class Reservation {
                     bookings[j] = bookings[j + 1];
                     bookings[j + 1] = temp;
                 }
+                else if (plate1.compareTo(plate2) == 0) {
+                    Date begin1 = bookings[j].getBegin();
+                    Date begin2 = bookings[j + 1].getBegin();
+                    //sort begin dates in vehicles
+                    if (begin1.compareTo(begin2) > 0) {
+                        Booking temp = bookings[j];
+                        bookings[j] = bookings[j + 1];
+                        bookings[j + 1] = temp;
+                    }
+                }
             }
         }
         //prints out sorted list
@@ -216,7 +234,7 @@ public class Reservation {
         for (int i = 0; i < size; i++) {
             System.out.println(bookings[i].toString());
         }
-        System.out.println("*end of list.");
+        System.out.println("*end of list.\n");
     } //ordered by plate then beginning date
 
     //PD Command
@@ -258,6 +276,6 @@ public class Reservation {
             }
             System.out.println(bookings[i].toString());
         }
-        System.out.println("*end of list.");
+        System.out.println("*end of list.\n");
     } //ordered by department then by employee
 }

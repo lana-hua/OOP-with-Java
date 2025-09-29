@@ -4,8 +4,6 @@
  @author Sharon Chen
  */
 
-import java.util.Calendar;
-
 public class Booking {
     private Date begin;
     private Date end;
@@ -81,6 +79,7 @@ public class Booking {
             Frontend.printInvalidBookingMessage("Employee not Eligible Error", null, employee, null,null);
             return false;
         } else if (Frontend.bookings.isEmployeeConflict(begin, end, employee) != null) {
+            Date start = Frontend.bookings.isEmployeeConflict(begin, end, employee);
             Frontend.printInvalidBookingMessage("Employee Conflict Error", null, employee, begin, end);
             return false;
         }
@@ -100,18 +99,18 @@ public class Booking {
         if (!begin.isBookingDateValid("begin", begin)) {
             return false;
         } else if (!begin.isTodayOrFuture()) {
-            Frontend.printBeginErrorMessage("Today or Future Error", begin);
+            Frontend.printBeginDateErrorMessage("Today or Future Error", begin);
             return false;
         } else if (!begin.isWithin3Months()) {
-            Frontend.printBeginErrorMessage("Beyond 3 Months Error", begin);
+            Frontend.printBeginDateErrorMessage("Beyond 3 Months Error", begin);
             return false;
         } else if (!end.isBookingDateValid("end", end)) {
             return false;
         } else if (end.compareTo(begin) < 0) {
-            Frontend.printEndErrorMessage("Equal to or Later Error", begin, end);
+            Frontend.printEndDateErrorMessage("Equal to or Later Error", begin, end);
             return false;
         } else if (!end.isWithin7Days(begin, end)) {
-            Frontend.printEndErrorMessage("More than a Week Error", begin, end);
+            Frontend.printEndDateErrorMessage("More than a Week Error", begin, end);
             return false;
         }
         return true;
@@ -141,7 +140,7 @@ public class Booking {
      */
     @Override
     public String toString(){
-        return (vehicle.toString() + " [beginning " + begin + " ending " + end + ":" + employee + "]");
+        return (vehicle.toString() + " [beginning " + begin + " ending " + end + ":" + employee.name().toUpperCase() + "]");
     }
 
 }

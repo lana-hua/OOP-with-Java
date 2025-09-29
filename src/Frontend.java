@@ -38,9 +38,9 @@ public class Frontend {
             case "C" -> cancelBooking(dataToken);
             case "R" -> returnVehicle(dataToken);
             case "PF" -> fleet.printByMake();//needs to be ordered by make then date
-            case "PR" -> System.out.println(bookings);//needs to be ordered by plate then beginning date
-            case "PD" -> System.out.println(bookings);//needs to be ordered by department then by employee
-            case "PT" -> System.out.println(tripList);//needs to be ordered by ending date
+            case "PR" -> bookings.printByVehicle(); //needs to be ordered by plate then beginning date
+            case "PD" -> bookings.printByDept();//needs to be ordered by department then by employee
+            case "PT" -> tripList.print();//needs to be ordered by ending date
             default -> {
                 String invalid_command = command + " - invalid command!";
                 System.out.println(invalid_command);
@@ -71,7 +71,12 @@ public class Frontend {
     public static void removeVehicle(String[] dataToken) {
         String plate = dataToken[1];
         Vehicle temp = new Vehicle(plate);
-        fleet.remove(temp);
+        if(!bookings.isVehicleBooked(plate)) {
+            fleet.remove(temp);
+        } else {
+            System.out.println(plate + " - has existing bookings; cannot be removed.");
+        }
+
     }
 
     public static void printNotInFleetMessage(Vehicle vehicle) {
@@ -115,7 +120,7 @@ public class Frontend {
         } else {return;}
     }
 
-    public static void printBeginErrorMessage(String errorType, Date begin) {
+    public static void printBeginDateErrorMessage(String errorType, Date begin) {
         switch (errorType) {
             case "Valid Error" -> System.out.println(begin + " - beginning date is not a valid calendar date.");
             case "Today or Future Error" -> System.out.println(begin + " - beginning date is not today or a future date.");
@@ -123,11 +128,11 @@ public class Frontend {
         }
     }
 
-    public static void printEndErrorMessage(String errorType, Date begin, Date end) {
+    public static void printEndDateErrorMessage(String errorType, Date begin, Date end) {
         switch (errorType) {
             case "Valid Error" -> System.out.println(begin + " - ending date is not a valid calendar date.");
             case "Equal to or Later Error" -> System.out.println(end + " - ending date must be equal or after the beginning date " + begin);
-            case "More than a Week Error" -> System.out.println(begin + " ~ " + end + " - duration more than a week");
+            case "More than a Week Error" -> System.out.println(begin + " ~ " + end + " - duration more than a week.");
         }
     }
 
@@ -141,7 +146,7 @@ public class Frontend {
     }
 
     public static void printValidCancelBookingMessage(Date begin, Date end, String plate) {
-        String validCancelBookingMessage = plate + ":" + begin + " ~ " + end + " - has been canceled.";
+        String validCancelBookingMessage = plate + ":" + begin + " ~ " + end + " has been canceled.";
         System.out.println(validCancelBookingMessage);
     }
 
@@ -155,10 +160,11 @@ public class Frontend {
         Date end = new Date(dataToken[2]);
         String plate = dataToken[3];
 
-        if (!begin.isValid() || begin.isTodayOrFuture() || !end.isValid() || end.isTodayOrFuture()){
+        if (!begin.isValid() || !begin.isTodayOrFuture() || !end.isValid() || !end.isTodayOrFuture()){
+            printInvalidDate(plate);
             return;
         }
-        else if (bookings.findBookingForCancelBooking(begin, end, plate) == null){
+        if (bookings.findBookingForCancelBooking(begin, end, plate) == null){
             printInvalidCancelBookingMessage(begin, end, plate);
             return;
         }
@@ -174,13 +180,10 @@ public class Frontend {
         String plate = dataToken[2];
         int mileage = Integer.parseInt(dataToken[3]);
 
-        if (!returnDate.isValid() || returnDate.isTodayOrFuture()) {
-            return;
-        } else if (bookings.findBookingForReturnVehicle(returnDate,plate) == null){
+        if (bookings.findBookingForReturnVehicle(returnDate, plate) == null){
             String cannotFindBookingMessage = plate + " booked with ending date " + returnDate + " - cannot find the booking.";
             System.out.println(cannotFindBookingMessage);
             return;
-
         } else if (!bookings.isReturnEarliestEnd(returnDate)) {
             String notEarliestEndDateMessage = plate + " booked with ending date " + returnDate + " - returning not in order of ending date.";
             System.out.println(notEarliestEndDateMessage);
@@ -203,12 +206,12 @@ public class Frontend {
             booking.getVehicle().setMileage(mileage);
             bookings.remove(booking);
 
+            System.out.println("Trip completed: " + newTrip.toString());
         }
     }
 
-
     public static void quit() {
-        System.out.println("Vehicle Management System is terminated.");
+        System.out.println("\nVehicle Management System is terminated.");
         System.exit(0);
     }
 
