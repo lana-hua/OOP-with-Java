@@ -119,6 +119,26 @@ public class Frontend {
     }
 
     public static void bookVehicle(String[] dataToken) {
+
+        if (Booking.isValidBookingDate(dataToken)) {
+
+        } else {return;}
+    }
+
+    public static void printBeginErrorMessage(String errorType, Date begin) {
+        switch (errorType) {
+            case "Valid Error" -> System.out.println(begin + " - beginning date is not a valid calendar date.");
+            case "Today or Future Error" -> System.out.println(begin + " - beginning date is not today or a future date.");
+            case "Beyond 3 Months Error" -> System.out.println(begin + " - beginning date beyond 3 months.");
+        }
+    }
+    public static void printEndErrorMessage(String errorType, Date begin, Date end) {
+        switch (errorType) {
+            case "Valid Error" -> System.out.println(begin + " - end date is not a valid calendar date.");
+            case "Equal to or Later Error" -> System.out.println(end + " - ending date must be equal or after the beginning date" + begin);
+            case "Beyond 3 Months Error" -> System.out.println(begin + " - end date beyond 3 months.");
+        }
+
         Date begin = new Date(dataToken[1]);
         Date end = new Date(dataToken[2]);
         String plate = dataToken[3];
@@ -160,6 +180,7 @@ public class Frontend {
                 }
             }
         }**/
+
     }
 
     public static void cancelBooking(String[] dataToken) {
@@ -178,21 +199,30 @@ public class Frontend {
             String cannotFindBookingMessage = plate + " booked with ending date " + returnDate + " - cannot find the booking.";
             System.out.println(cannotFindBookingMessage);
             return;
+
         } else if (!bookings.isReturnEarliestEnd(returnDate)) {
             String notEarliestEndDateMessage = plate + " booked with ending date " + returnDate + " - returning not in order of ending date.";
             System.out.println(notEarliestEndDateMessage);
             return;
+
         } else if (!Vehicle.isValidMileage(mileage)) {
             return;
+
         } else if(bookings.findBookingForReturnVehicle(returnDate,plate).getVehicle().getMileage() >= mileage) {
             String invalidMileageMessage = "Invalid mileage - current mileage: " + bookings.findBookingForReturnVehicle(returnDate,plate).getVehicle().getMileage() + " entered mileage: " + mileage;
             System.out.println(invalidMileageMessage);
             return;
+
         } else {
-            bookings.findBookingForReturnVehicle(returnDate,plate).getVehicle().setMileage(mileage);
+            Booking booking = bookings.findBookingForReturnVehicle(returnDate,plate);
+
+            Trip newTrip = new Trip(booking, booking.getVehicle().getMileage(),mileage);
+            tripList.add(newTrip);
+
+            booking.getVehicle().setMileage(mileage);
+            bookings.remove(booking);
+
         }
-
-
     }
 
 
