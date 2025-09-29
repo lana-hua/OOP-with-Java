@@ -113,11 +113,6 @@ public class Frontend {
         System.out.println(employeeConflictMessage);
     }
 
-    public static void printInvalidBookingDate(Booking booking) {
-        String invalidBookingDate = booking.validateBookingDate();
-        System.out.println(invalidBookingDate);
-    }
-
     public static void bookVehicle(String[] dataToken) {
 
         if (Booking.isValidBookingDate(dataToken)) {
@@ -140,13 +135,32 @@ public class Frontend {
         }
     }
 
+    public static void printValidCancelBookingMessage(Date begin, Date end) {
+        String validCancelBookingMessage = begin + " ~ " + end + " - has been cancelled.";
+        System.out.println(validCancelBookingMessage);
+    }
+
+    public static void printInvalidCancelBookingMessage(Date begin, Date end) {
+        String invalidCancelBookingMessage = begin + " ~ " + end + " - cannot find the booking.";
+        System.out.println(invalidCancelBookingMessage);
+    }
+
     public static void cancelBooking(String[] dataToken) {
         Date begin = new Date(dataToken[1]);
         Date end = new Date(dataToken[2]);
         String plate = dataToken[3];
 
-        //is there a method that returns vehicle given the plate?
-        //for (int i = 0; i < bookings.getSize(); i++){}
+        if (!begin.isValid() || begin.isTodayOrFuture() || !end.isValid() || end.isTodayOrFuture()){
+            return;
+        }
+        else if (bookings.findBookingForCancelBooking(begin, end, plate) == null){
+            printInvalidCancelBookingMessage(begin, end);
+            return;
+        }
+        else if (bookings.findBookingForCancelBooking(begin, end, plate) != null){
+            bookings.remove(bookings.findBookingForCancelBooking(begin, end, plate));
+            printValidCancelBookingMessage(begin, end);
+        }
     }
 
     //R 8/24/2025 58719D 87170
