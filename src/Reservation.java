@@ -1,7 +1,7 @@
 /**
- First, a single, very descriptive sentence describing the class.
- Then, additional lines of description are added to elaborate on the
- details if necessary.
+ The Reservation class manages a collection of bookings with an array.
+ It allows the user to search, resize, add, remove, and match bookings in the list.
+ It also allows the user to check for conflicts and print for bookings.
  @author Sharon Chen
  */
 
@@ -14,15 +14,18 @@ public class Reservation {
     private static final int CAPACITY = 4; //initial capacity
     private static final int NOT_FOUND = -1;
 
+    //Constructs an empty array of bookings for Reservation
     public Reservation() {
         bookings = new Booking[CAPACITY];
         size = 0;
     }
 
+    //Returns the size of the bookings array
     public int getSize(){
         return size;
     }
 
+    //Searches for a specific booking and returns the index if found and NOT_FOUND if not
     private int find(Booking booking) {
         if (contains(booking)) {
             for (int i = 0; i < size; i++){
@@ -34,6 +37,7 @@ public class Reservation {
         return NOT_FOUND;
     } //search the given booking
 
+    //Increases the capacity of the bookings array by 4 if the list is full
     private void grow() {
         Booking[] newArray = new Booking[size+4];
 
@@ -42,6 +46,7 @@ public class Reservation {
         bookings = newArray;
     } //resize the array
 
+    //Adds a new booking to the end of the bookings array and grows the list if necessary
     public void add(Booking booking) {
         if (size == bookings.length){
             grow();
@@ -52,6 +57,7 @@ public class Reservation {
 
     } //add to end of array
 
+    //Deletes a specific booking from the bookings array
     public void remove(Booking booking) {
         if (contains(booking)){
             int index = find(booking);
@@ -61,6 +67,7 @@ public class Reservation {
         }
     } //overwrite with last element
 
+    //Checks if a specific booking exists in the bookings array and returns true if it exists and false if not
     public boolean contains(Booking booking) {
         for (int i = 0; i < size; i++){
             if (bookings[i].equals(booking)){
@@ -74,6 +81,7 @@ public class Reservation {
     }
 
     //given ending date, plate, find if already in booking, return the booking
+    //Searches for a booking given the end date and license plate
     public Booking findBookingForReturnVehicle(Date end, String plate){
         for (int i = 0; i < bookings.length; i++) {
             if ((bookings[i].getEnd().equals(end) && (bookings[i].getVehicle().getPlate().equals(plate)))) {
@@ -148,7 +156,7 @@ public class Reservation {
         Calendar bookingEnd = Calendar.getInstance();
 
         for (int i = 0; i < Frontend.bookings.getSize(); i++) {
-            if (Frontend.bookings.bookings[i].getEmployee().name().equals(employee)) {
+            if (Frontend.bookings.bookings[i].getEmployee().name().equalsIgnoreCase(employee)) {
                 bookingStart.set(Calendar.DAY_OF_MONTH, Frontend.bookings.bookings[i].getBegin().getDay());
                 bookingStart.set(Calendar.MONTH, Frontend.bookings.bookings[i].getBegin().getMonth() - 1);
                 bookingStart.set(Calendar.YEAR, Frontend.bookings.bookings[i].getBegin().getYear());
