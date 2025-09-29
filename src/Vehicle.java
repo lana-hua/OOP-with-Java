@@ -92,7 +92,7 @@ public class Vehicle implements Comparable<Vehicle> {
             return true;
         }
         else {
-            Frontend.invalidMileageMessage(mileage);
+            Frontend.printInvalidMileageMessage(mileage);
             return false;
         }
     }
