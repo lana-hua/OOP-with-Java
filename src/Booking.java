@@ -67,7 +67,7 @@ public class Booking {
         }
     }
 
-    public String validateBooking(){
+    public String validateBookingDate(){
         if (!begin.isValid()){
             return (begin + " - beginning date is not a valid calendar date.");
         }
@@ -84,7 +84,23 @@ public class Booking {
             return (end + " - ending date is not today or a future date.");
         }
 
+        if (end.compareTo(begin) < 0){
+            return (end + " - ending date must be equal or after the beginning date " + begin);
+        }
+
+        if (!isWithin3Months()){
+            return (begin + " - beginning date beyond 3 months.");
+        }
+
+        if (!isWithin7Days()){
+            return (begin + " ~ " + end  + " - duration more than a week.");
+        }
+
         return null;
+    }
+
+    public boolean isEmployeeConflict(){
+        
     }
 
     @Override

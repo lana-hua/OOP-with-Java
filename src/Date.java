@@ -102,21 +102,15 @@ public class Date implements Comparable<Date> {
             this.year = Integer.parseInt(dateSections[2]);
 
             if (!isValid()){
-                String invalid_command = dateInput + " - invalid calendar date.";
-                System.out.println(invalid_command);
-                //throw new IllegalArgumentException(dateInput + " - invalid calendar date.");
+                Frontend.printInvalidDate(dateInput);
             }
 
             if ((isTodayOrFuture())) {
-                String invalid_command = dateInput + " - is today or a future date.";
-                System.out.println(invalid_command);
-                //throw new IllegalArgumentException(dateInput + " - is today or a future date.");
+                Frontend.printTodayOrFuture(dateInput);
             }
         }
         else {
-            String invalid_command = dateInput + " - invalid calendar date";
-            System.out.println(invalid_command);
-            //throw new IllegalArgumentException(dateInput + " - invalid calendar date.");
+            Frontend.printInvalidDate(dateInput);
         }
     }
 
