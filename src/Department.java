@@ -1,3 +1,8 @@
+/**
+ * Enum of the Departments that the Employees are from.
+ * Each department has the name and the String format for the department.
+ * @author Lana Huang
+ */
 public enum Department {
     COMPUTER_SCIENCE("Computer Science"),
     ELECTRICAL_ENGINEERING("Electrical Engineering"),
@@ -7,10 +12,18 @@ public enum Department {
 
     private final String fullName;
 
+    /**
+     * Gives the string format of the department name.
+     * @param fullName The string format of the department name.
+     */
     Department(String fullName) {
         this.fullName = fullName;
     }
 
+    /**
+     * Override toString that returns the string format of the department name.
+     * @return fullName The string format fo the department name.
+     */
     @Override
     public String toString() {
         return fullName;
