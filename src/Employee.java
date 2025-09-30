@@ -1,22 +1,21 @@
 public enum Employee {
-    Patel ("Computer Science"),
-    Lim ("Electrical Engineering"),
-    Zimnes ("Computer Science"),
-    Harper ("Electrical Engineering"),
-    Kaur ("Information Technology and Informatics"),
-    Taylor ("Mathematics"),
-    Ramesh ("Mathematics"),
-    Ceravolo ("Business Analytics and Information Technology");
+    Patel (Department.COMPUTER_SCIENCE),
+    Lim (Department.ELECTRICAL_ENGINEERING),
+    Zimnes (Department.COMPUTER_SCIENCE),
+    Harper (Department.ELECTRICAL_ENGINEERING),
+    Kaur (Department.INFORMATION_TECHNOLOGY_AND_INFORMATICS),
+    Taylor (Department.MATHEMATICS),
+    Ramesh (Department.MATHEMATICS),
+    Ceravolo (Department.BUSINESS_ANALYTICS_AND_INFORMATION_TECHNOLOGY);
 
-    private String department;
+    private Department dept;
 
-
-    public String getDepartment(){
-        return department;
+    public Department getDepartment(){
+        return dept;
     }
 
-    Employee(String department) {
-        this.department = department;
+    Employee(Department department) {
+        this.dept = department;
     }
 
     public static boolean isValidEmployee(String employee) {
@@ -33,7 +32,7 @@ public enum Employee {
 
     @Override
     public String toString() {
-        return name() + ": " + department;
+        return name() + ": " + dept;
     }
 
 }
