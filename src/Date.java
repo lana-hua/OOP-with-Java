@@ -51,6 +51,24 @@ public class Date implements Comparable<Date> {
     }
 
     /**
+     * Constructs a Date object from a string in "MM/DD/YYYY" format.
+     * @param dateInput the date string to parse
+     */
+    public Date(String dateInput) {
+        String[] dateSections = dateInput.split("/");
+
+        if ((dateSections.length == 3)) {
+            this.month = Integer.parseInt(dateSections[0]);
+            this.day = Integer.parseInt(dateSections[1]);
+            this.year = Integer.parseInt(dateSections[2]);
+
+        }
+        else {
+            Frontend.printInvalidDate(dateInput);
+        }
+    }
+
+    /**
      * Determines if the date falls in a leap year.
      * @return true if the year is a leap year; return false otherwise
      */
@@ -203,24 +221,6 @@ public class Date implements Comparable<Date> {
     }
 
     /**
-     * Constructs a Date object from a string in "MM/DD/YYYY" format.
-     * @param dateInput the date string to parse
-     */
-    public Date(String dateInput) {
-        String[] dateSections = dateInput.split("/");
-
-        if ((dateSections.length == 3)) {
-            this.month = Integer.parseInt(dateSections[0]);
-            this.day = Integer.parseInt(dateSections[1]);
-            this.year = Integer.parseInt(dateSections[2]);
-
-        }
-        else {
-            Frontend.printInvalidDate(dateInput);
-        }
-    }
-
-    /**
      * Compares this Date object with another object for equality.
      * @param comparison the object to compare with this date
      * @return true if the dates are equal; return false otherwise
@@ -261,5 +261,25 @@ public class Date implements Comparable<Date> {
             return Integer.compare(this.month, comparison.month);
         }
         return Integer.compare(this.day, comparison.day);
+    }
+
+    public static void main(String[] args) {
+        Date test1 = new Date("11/34/2025");
+        System.out.println(test1.isValid());
+
+        Date test2 = new Date("19/16/2025");
+        System.out.println(test2.isValid());
+
+        Date test3 = new Date("06/07/-1");
+        System.out.println(test3.isValid());
+
+        Date test4 = new Date("02/29/2028");
+        System.out.println(test4.isValid());
+
+        Date test5 = new Date("02/29/2026");
+        System.out.println(test5.isValid());
+
+        Date test6 = new Date("10/30/2025");
+        System.out.println(test6.isValid());
     }
 }
