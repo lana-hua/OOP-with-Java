@@ -156,6 +156,10 @@ public class Vehicle implements Comparable<Vehicle> {
         return plate.compareTo(o.plate);
     }
 
+    /**
+     * Testbed for 3 test cases of Testing Specifications for compareTo method.
+     * @param args
+     */
     public static void main(String[] args) {
         //1 output
         Vehicle vehicle1 = new Vehicle("80671S", null, Make.CHEVY, 10293);

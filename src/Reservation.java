@@ -1,12 +1,11 @@
+import java.util.Calendar;
+
 /**
  The Reservation class manages a collection of bookings with an array.
  It allows the user to search, resize, add, remove, and match bookings in the list.
  It also allows the user to check for conflicts and print for bookings.
  @author Sharon Chen
  */
-
-import java.util.Calendar;
-
 public class Reservation {
     private Booking[] bookings;
     private int size;

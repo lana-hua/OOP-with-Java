@@ -1,11 +1,10 @@
+import java.util.Scanner;
+
 /**
  * The Frontend class serves as the main interface for the Vehicle Management System.
  * It handles user input, command processing, and coordinates between different system components.
  * @authors Lana Huang, Sharon Chen
  */
-
-import java.util.Scanner;
-
 public class Frontend {
   static Fleet fleet = new Fleet();
   static Reservation bookings = new Reservation();
