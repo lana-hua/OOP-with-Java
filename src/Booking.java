@@ -57,10 +57,9 @@ public class Booking {
     }
 
     /**
-     * Validates whether a booking request meets all business rules and constraints.
-     * Checks for vehicle existence, vehicle availability, employee eligibility, and scheduling conflicts.
+     * Validates whether a booking request meets all the rules and constraints.
      * @param dataToken the array containing booking data tokens
-     * @return true if all validation criteria are met for the booking to be created, false otherwise
+     * @return true if all validation criteria are met; return false otherwise
      */
     public static boolean isValidBooking(String[] dataToken) {
         String plate = dataToken[3];
@@ -87,10 +86,9 @@ public class Booking {
     }
 
     /**
-     * Validates the date parameters for a booking request to ensure they meet scheduling date requirements.
-     * Checks that dates are valid, are today or in the future, within three months, are after begin dates, or within a seven-day maximum booking period.
+     * Validates the date parameters for a booking request to ensure they meet scheduling requirements.
      * @param dataToken the array containing booking data tokens with date information
-     * @return true if all date validation rules are satisfied, false otherwise
+     * @return true if all date validation rules are satisfied; return false otherwise
      */
     public static boolean isValidBookingDate(String[] dataToken) {
         Date begin = new Date(dataToken[1]);
