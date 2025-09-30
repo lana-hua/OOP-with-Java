@@ -155,4 +155,23 @@ public class Vehicle implements Comparable<Vehicle> {
     public int compareTo(Vehicle o) {
         return plate.compareTo(o.plate);
     }
+
+    public static void main(String[] args) {
+        //1 output
+        Vehicle vehicle1 = new Vehicle("80671S", null, Make.CHEVY, 10293);
+        Vehicle vehicle2 = new Vehicle("71707X", null, Make.CHEVY, 10293);
+        System.out.println(vehicle1.compareTo(vehicle2));
+
+        //0 output
+        Vehicle vehicle3 = new Vehicle("58718D", null, Make.CHEVY, 10293);
+        Vehicle vehicle4 = new Vehicle("58718D", null, Make.CHEVY, 10293);
+        System.out.println(vehicle3.compareTo(vehicle4));
+
+        //-1 output
+        Vehicle vehicle5 = new Vehicle("58718D", null, Make.CHEVY, 10293);
+        Vehicle vehicle6 = new Vehicle("65402A", null, Make.CHEVY, 10293);
+        System.out.println(vehicle5.compareTo(vehicle6));
+
+
+    }
 }
