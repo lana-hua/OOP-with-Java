@@ -102,10 +102,10 @@ public class Vehicle implements Comparable<Vehicle> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;               // same reference
+        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Vehicle other = (Vehicle) o;              // safe cast now
+        Vehicle other = (Vehicle) o;
         return this.plate.equals(other.plate);
     }
 
