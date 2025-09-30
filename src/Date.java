@@ -1,7 +1,6 @@
 /**
- First, a single, very descriptive sentence describing the class.
- Then, additional lines of description are added to elaborate on the
- details if necessary.
+ The Date class manages a calendar date object containing day, month, and year.
+ It allows the user check the date validity and compare for date.
  @author Sharon Chen
 */
 import java.util.Calendar;
@@ -15,33 +14,46 @@ public class Date implements Comparable<Date> {
     public static final int CENTENNIAL = 100;
     public static final int QUATERCENTENNIAL = 400;
 
+    /**
+     * Constructs a Date object with the specified month, day, and year.
+     * @param month the month of the date
+     * @param day the day of the date
+     * @param year the year of the date
+     */
     public Date(int month, int day, int year){
         this.day = day;
         this.month = month;
         this.year = year;
     }
 
+    /**
+     * Returns the day of the date.
+     * @return the day of the date
+     */
     public int getDay(){
         return day;
     }
 
+    /**
+     * Returns the month of the date.
+     * @return the month of the date
+     */
     public int getMonth(){
         return month;
     }
 
+    /**
+     * Returns the year of the date.
+     * @return the year of the date
+     */
     public int getYear(){
         return year;
     }
 
     /**
-     * Leap Year Steps:
-         * Step 1. If the year is evenly divisible by 4, go to step 2. Otherwise, go to step 5.
-         * Step 2. If the year is evenly divisible by 100, go to step 3. Otherwise, go to step 4.
-         * Step 3. If the year is evenly divisible by 400, go to step 4. Otherwise, go to step 5.
-         * Step 4. The year is a leap year.
-         * Step 5. The year is not a leap year
-     **/
-
+     * Determines if the date falls in a leap year.
+     * @return true if the year is a leap year; return false otherwise
+     */
     public boolean isLeap() {
         if (year % QUADRENNIAL == 0){
             if (year % CENTENNIAL== 0){
@@ -61,7 +73,10 @@ public class Date implements Comparable<Date> {
         }
     }
 
-
+    /**
+     * Checks if the date is today or in the future.
+     * @return true if the date is today or future; return false if in the past
+     */
     public boolean isTodayOrFuture(){
         Calendar today = Calendar.getInstance();
         Date todaysDate = new Date((today.get(Calendar.MONTH)+1), (today.get(Calendar.DAY_OF_MONTH)), (today.get(Calendar.YEAR)));
@@ -75,6 +90,12 @@ public class Date implements Comparable<Date> {
         }
     }
 
+    /**
+     * Validates if the date is appropriate for booking purposes.
+     * @param type the type of date being validated (begin or end)
+     * @param date the date to validate
+     * @return true if the date is valid for booking; return false otherwise
+     */
     public boolean isBookingDateValid(String type, Date date) {
         if (!date.isValid()) {
             if (type == "begin") {
@@ -88,6 +109,10 @@ public class Date implements Comparable<Date> {
         return true;
     }
 
+    /**
+     * Checks if the date represents a valid calendar date.
+     * @return true if the date is valid; return false otherwise
+     */
     public boolean isValid() {
         if ((day < 1) || (day > 31) || (month < 1) || (month > 12) || (year < 0)) {
             return false;
@@ -113,6 +138,10 @@ public class Date implements Comparable<Date> {
         return (day <= maxDays);
     }
 
+    /**
+     * Checks if the date is within 3 months from today.
+     * @return true if within 3 months; return false otherwise
+     */
     public boolean isWithin3Months(){
         Calendar today = Calendar.getInstance();
         Date todaysDate = new Date((today.get(Calendar.MONTH)+1), (today.get(Calendar.DAY_OF_MONTH)), (today.get(Calendar.YEAR)));
@@ -129,6 +158,12 @@ public class Date implements Comparable<Date> {
         }
     }
 
+    /**
+     * Checks if the duration between begin and end dates is within 7 days.
+     * @param begin the starting date
+     * @param end the ending date
+     * @return true if duration is within 7 days; return false otherwise
+     */
     public boolean isWithin7Days(Date begin, Date end){
         Calendar bookingStart = Calendar.getInstance();
         bookingStart.set(Calendar.DAY_OF_MONTH, begin.getDay());
@@ -151,6 +186,11 @@ public class Date implements Comparable<Date> {
         }
     }
 
+    /**
+     * Validates if the calendar date string represents a valid date.
+     * @param date the date string to validate
+     * @return true if valid; return false otherwise
+     */
     public boolean isCalendarDateValid(String date) {
         if (!isValid()){
             Frontend.printInvalidDate(date);
@@ -162,6 +202,10 @@ public class Date implements Comparable<Date> {
         return true;
     }
 
+    /**
+     * Constructs a Date object from a string in "MM/DD/YYYY" format.
+     * @param dateInput the date string to parse
+     */
     public Date(String dateInput) {
         String[] dateSections = dateInput.split("/");
 
@@ -176,6 +220,11 @@ public class Date implements Comparable<Date> {
         }
     }
 
+    /**
+     * Compares this Date object with another object for equality.
+     * @param comparison the object to compare with this date
+     * @return true if the dates are equal; return false otherwise
+     */
     @Override
     public boolean equals(Object comparison) {
         if (this == comparison) {
@@ -189,11 +238,20 @@ public class Date implements Comparable<Date> {
         return ((this.day == compareDate.day) && (this.month == compareDate.month) && (this.year == compareDate.year));
     }
 
+    /**
+     * Returns a string representation of the date in "MM/DD/YYYY" format.
+     * @return the formatted date string
+     */
     @Override
     public String toString(){
         return (month + "/" + day + "/" + year);
     }
 
+    /**
+     * Compares this date with another date.
+     * @param comparison the date to compare with
+     * @return positive if later, zero if equal, negative if this date is earlier
+     */
     @Override
     public int compareTo(Date comparison){
         if (this.year != comparison.year){
