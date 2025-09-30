@@ -246,8 +246,8 @@ public class Reservation {
         //sorting by Department and Employees in order
         for (int i = 0; i < (size - 1); i++) {
             for (int j = 0; j < (size - i - 1); j++) {
-                String dept1 = bookings[j].getEmployee().getDepartment();
-                String dept2 = bookings[j + 1].getEmployee().getDepartment();
+                String dept1 = bookings[j].getEmployee().getDepartment().toString();
+                String dept2 = bookings[j + 1].getEmployee().getDepartment().toString();
                 //sort departments
                 if (dept1.compareTo(dept2) > 0) {
                     Booking temp = bookings[j];
@@ -269,7 +269,7 @@ public class Reservation {
         System.out.println("*List of reservations ordered by department and employee.");
         String currentDept = "";
         for (int i = 0; i < size; i++) {
-            String bookingDept = bookings[i].getEmployee().getDepartment();
+            String bookingDept = bookings[i].getEmployee().getDepartment().toString();
             if (!bookingDept.equals(currentDept)) {
                 currentDept = bookingDept;
                 System.out.println("--" + currentDept + "--");

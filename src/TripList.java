@@ -1,6 +1,15 @@
+/**
+ * TripList class represents the circular linked list.
+ * This class contains the reference to the last node in the linked list.
+ * @author Lana Huang
+ */
 public class TripList {
-    private Node last; //the reference to the last node of the linked list.
+    private Node last;
 
+    /**
+     * Add New Node with given trip to circular linked list
+     * @param trip The trip stored in new node to be added to linked list
+     */
     public void add(Trip trip) {
         Node newNode = new Node(trip);
         if (last == null) {
@@ -13,6 +22,12 @@ public class TripList {
         }
     }
 
+    /**
+     * Print all completed trips in the circular linked list, tripList, ordered by end date.
+     * This method creates a visited boolean array that keeps track of Nodes already visited.
+     * It then repeatedly finds the unvisited node with the earliest date, prints the trip information.
+     * Then it marks the node as visited and continues this process until all are printed.
+     */
     public void print() {
         if (last == null) {
             System.out.println("There is no archived trips.");
