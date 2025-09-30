@@ -1,7 +1,6 @@
 /**
- First, a single, very descriptive sentence describing the class.
- Then, additional lines of description are added to elaborate on the
- details if necessary.
+ Vehicle class that contains information about the vehicle.
+ It contains the string license plate, the Date it was obtained, the make of the car, and the mileage on the odometer.
  @author Lana Huang
  */
 public class Vehicle implements Comparable<Vehicle> {
@@ -10,6 +9,50 @@ public class Vehicle implements Comparable<Vehicle> {
     private Make make; //Make is an enum class
     private int mileage; //current reading on the odometer
 
+    /**
+     * Gets the mileage from an instance of Vehicle.
+     * @return mileage
+     */
+    public int getMileage() {
+        return mileage;
+    }
+
+    /**
+     * Sets the mileage from an instance of Vehicle with the given mileage.
+     * @param mileage The mileage that will be set to.
+     */
+    public void setMileage(int mileage) {
+        this.mileage = mileage;
+    }
+
+    /**
+     * Gets the plate from an instance of Vehicle.
+     * @return plate
+     */
+    public String getPlate() {
+        return plate;
+    }
+
+    /**
+     * Gets the make from an instance of Vehicle.
+     * @return make
+     */
+    public Make getMake() {
+        return make;
+    }
+
+    /**
+     * Gets date from an instance of Vehicle.
+     * @return date
+     */
+    public Date getDate() {
+        return obtained;
+    }
+
+    /**
+     * Constructs a Vehicle
+     * @param plate
+     */
     public Vehicle(String plate) {
         this.plate = plate;
         this.obtained = null;
@@ -17,32 +60,12 @@ public class Vehicle implements Comparable<Vehicle> {
         this.mileage = 0;
     }
 
-    public int getMileage() {
-        return mileage;
-    }
-
-    public void setMileage(int mileage) {
-        this.mileage = mileage;
-    }
-
-    public String getPlate() {
-        return plate;
-    }
-
-    public Make getMake() {
-        return make;
-    }
-
-    public Date getDate() {
-        return obtained;
-    }
-
     /**
-     *
-     * @param plate
-     * @param obtained
-     * @param make
-     * @param mileage
+     * Constructs Vehicle given the plate, date obtained, make, and mileage.
+     * @param plate String license plate number.
+     * @param obtained Date obtained.
+     * @param make Make of the vehicle.
+     * @param mileage Mileage of the vehicle.
      */
     public Vehicle(String plate, Date obtained, Make make, int mileage) {
         this.plate = plate;
@@ -52,8 +75,9 @@ public class Vehicle implements Comparable<Vehicle> {
     }
 
     /**
-     *
-     * @param dataToken
+     * Constructs Vehicle given a String array dataToken.
+     * Checks if each of the dataTokens are valid.
+     * @param dataToken DataToken that contains the plate, date, make, and mileage
      */
     public Vehicle (String[] dataToken) {
         if (Vehicle.isValidVehicle(dataToken)){
@@ -65,9 +89,9 @@ public class Vehicle implements Comparable<Vehicle> {
     }
 
     /**
-     *
-     * @param dataToken
-     * @return
+     * Checks if each of the dataToken can make a valid vehicle.
+     * @param dataToken String array dataToken with plate, date, make, and mileage.
+     * @return true if all string array elements are valid vehicle parts; false otherwise.
      */
     public static boolean isValidVehicle(String[] dataToken) {
         Date obtained = new Date(dataToken[2]);
@@ -81,13 +105,12 @@ public class Vehicle implements Comparable<Vehicle> {
         } else if (!Vehicle.isValidMileage(mileage)) {
             return false;
         } else { return true; }
-
     }
 
     /**
-     *
-     * @param mileage
-     * @return
+     * Checks if the mileage is greater than 0.
+     * @param mileage The mileage to be checked.
+     * @return true if the mileage is greater than 0; false otherwise.
      */
     public static boolean isValidMileage(int mileage) {
         if (mileage > 0) {
@@ -99,7 +122,12 @@ public class Vehicle implements Comparable<Vehicle> {
         }
     }
 
-
+    /**
+     * Override equals method that checks if the vehicles are equal.
+     * Checks through the getClass method and through the vehicle plate.
+     * @param o   the reference object with which to compare.
+     * @return true if vehicle is the same; false if they are different.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -109,11 +137,20 @@ public class Vehicle implements Comparable<Vehicle> {
         return this.plate.equals(other.plate);
     }
 
+    /**
+     * Override the toString method to return the plate, make, date obtained, and the mileage.
+     * @return a string of all the vehicle traits together.
+     */
     @Override
     public String toString() {
         return plate + ":" + make + ":" + obtained + " [mileage:" + mileage + "]";
     }
 
+    /**
+     * Override compareTo method that compares the plate of two vehicles.
+     * @param o the reference object with which to compare to.
+     * @return 0 if they are the same; -1 or 1 if they are different.
+     */
     @Override
     public int compareTo(Vehicle o) {
         return plate.compareTo(o.plate);

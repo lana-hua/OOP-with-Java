@@ -298,6 +298,7 @@ public class Reservation {
             System.out.println("There is no booking record.");
             return;
         }
+
         for (int i = 0; i < (size - 1); i++) {
             for (int j = 0; j < (size - i - 1); j++) {
                 String dept1 = bookings[j].getEmployee().getDepartment().toString();
