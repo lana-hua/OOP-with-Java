@@ -14,18 +14,27 @@ public class Reservation {
     private static final int CAPACITY = 4; //initial capacity
     private static final int NOT_FOUND = -1;
 
-    //Constructs an empty array of bookings for Reservation
+    /**
+     * Constructs an empty array of bookings for Reservation.
+     */
     public Reservation() {
         bookings = new Booking[CAPACITY];
         size = 0;
     }
 
-    //Returns the size of the bookings array
+    /**
+     * Returns the size of the bookings array.
+     * @return the number of bookings in the reservation system
+     */
     public int getSize(){
         return size;
     }
 
-    //Searches for a specific booking and returns the index if found and NOT_FOUND if not
+    /**
+     * Searches for a specific booking and returns the index if found and NOT_FOUND if not.
+     * @param booking the booking to search for
+     * @return the index of the booking if found; return NOT_FOUND otherwise
+     */
     private int find(Booking booking) {
         if (contains(booking)) {
             for (int i = 0; i < size; i++){
@@ -37,7 +46,9 @@ public class Reservation {
         return NOT_FOUND;
     } //search the given booking
 
-    //Increases the capacity of the bookings array by 4 if the list is full
+    /**
+     * Increases the capacity of the bookings array by 4 if the list is full.
+     */
     private void grow() {
         Booking[] newArray = new Booking[size+4];
 
@@ -46,7 +57,10 @@ public class Reservation {
         bookings = newArray;
     } //resize the array
 
-    //Adds a new booking to the end of the bookings array and grows the list if necessary
+    /**
+     * Adds a new booking to the end of the bookings array and grows the list if necessary.
+     * @param booking the booking to add to the reservation list
+     */
     public void add(Booking booking) {
         if (size == bookings.length){
             grow();
@@ -57,7 +71,10 @@ public class Reservation {
 
     } //add to end of array
 
-    //Deletes a specific booking from the bookings array
+    /**
+     * Deletes a specific booking from the bookings array.
+     * @param booking the booking to remove from the reservation list
+     */
     public void remove(Booking booking) {
         if (contains(booking)){
             int index = find(booking);
@@ -67,7 +84,11 @@ public class Reservation {
         }
     } //overwrite with last element
 
-    //Checks if a specific booking exists in the bookings array and returns true if it exists and false if not
+    /**
+     * Checks if a specific booking exists in the bookings array.
+     * @param booking the booking to check for existence
+     * @return true if the booking exists in the system; return false otherwise
+     */
     public boolean contains(Booking booking) {
         for (int i = 0; i < size; i++){
             if (bookings[i].equals(booking)){
@@ -80,6 +101,11 @@ public class Reservation {
         return false;
     }
 
+    /**
+     * Checks if a vehicle with the given plate number is currently booked.
+     * @param plate the license plate number to check
+     * @return true if the vehicle is booked, false otherwise
+     */
     public boolean isVehicleBooked(String plate) {
         for (int i = 0; i < Frontend.bookings.getSize(); i++) {
             if (Frontend.bookings.bookings[i].getVehicle().getPlate().equals(plate)) {
@@ -89,8 +115,12 @@ public class Reservation {
         return false;
     }
 
-    //given ending date, plate, find if already in booking, return the booking
-    //Searches for a booking given the end date and license plate
+    /**
+     * Searches for a booking given the ending date and license plate.
+     * @param end the ending date of the booking to find
+     * @param plate the license plate number of the vehicle
+     * @return the booking if found; return null otherwise
+     */
     public Booking findBookingForReturnVehicle(Date end, String plate){
         for (int i = 0; i < Frontend.bookings.getSize(); i++) {
             if ((Frontend.bookings.bookings[i].getEnd().equals(end) && (Frontend.bookings.bookings[i].getVehicle().getPlate().equals(plate)))) {
@@ -100,8 +130,13 @@ public class Reservation {
         return null;
     }
 
-    //given begin, ending date, plate, find if already in booking, return the booking
-    public Booking findBookingForCancelBooking(Date begin, Date end, String plate){
+    /**
+     * Searches for a booking given the beginning date, end date, and license plate.
+     * @param begin the beginning date of the booking to find
+     * @param end the ending date of the booking to find
+     * @param plate the license plate number of the vehicle
+     * @return the booking if found, null otherwise
+     */    public Booking findBookingForCancelBooking(Date begin, Date end, String plate){
         for (int i = 0; i < Frontend.bookings.getSize(); i++) {
             if ((Frontend.bookings.bookings[i].getBegin().equals(begin)) && (Frontend.bookings.bookings[i].getEnd().equals(end) && (Frontend.bookings.bookings[i].getVehicle().getPlate().equals(plate)))) {
                 return Frontend.bookings.bookings[i];
@@ -110,6 +145,13 @@ public class Reservation {
         return null;
     }
 
+    /**
+     * Checks if there is a vehicle conflict for the given dates and license plate.
+     * @param begin the start date to check for conflicts
+     * @param end the end date to check for conflicts
+     * @param plate the license plate number to check
+     * @return true if there is a vehicle conflict; return false otherwise
+     */
     public boolean isVehicleConflict(Date begin, Date end, String plate) {
         Calendar testStart = Calendar.getInstance();
         testStart.set(Calendar.DAY_OF_MONTH, begin.getDay());
@@ -148,6 +190,13 @@ public class Reservation {
         return false;
     }
 
+    /**
+     * Checks if there is an employee conflict for the given dates and employee.
+     * @param begin the start date to check for conflicts
+     * @param end the end date to check for conflicts
+     * @param employee the employee name to check
+     * @return the conflicting booking's begin date if conflict exists; return null otherwise
+     */
     public Date isEmployeeConflict(Date begin, Date end, String employee) {
         Calendar testStart = Calendar.getInstance();
         testStart.set(Calendar.DAY_OF_MONTH, begin.getDay());
@@ -187,8 +236,11 @@ public class Reservation {
         return null;
     }
 
-
-    //given ending date find the earliest end date, if matches return true else return false
+    /**
+     * Checks if the given return date is the earliest end date among all bookings.
+     * @param returnDate the return date to check
+     * @return true if the return date is the earliest end date; return false otherwise
+     */
     public boolean isReturnEarliestEnd (Date returnDate){
         Date earliestDate = Frontend.bookings.bookings[0].getEnd();
         for (int i = 1; i < Frontend.bookings.getSize(); i++) {
@@ -199,14 +251,15 @@ public class Reservation {
         return returnDate.compareTo(earliestDate) == 0;
     }
 
-    //PR Command
+    /**
+     * Prints all reservations ordered by license plate number and then by beginning date.
+     */
     public void printByVehicle() {
         if (size == 0) {
             System.out.println("There is no booking record.");
             return;
         }
 
-        //sorting by Vehicles and Begin Dates in order
         for (int i = 0; i < (size - 1); i++) {
             for (int j = 0; j < (size - i - 1); j++) {
                 String plate1 = bookings[j].getVehicle().getPlate();
@@ -229,7 +282,7 @@ public class Reservation {
                 }
             }
         }
-        //prints out sorted list
+
         System.out.println("*List of reservations ordered by license plate number and beginning date.");
         for (int i = 0; i < size; i++) {
             System.out.println(bookings[i].toString());
@@ -237,18 +290,19 @@ public class Reservation {
         System.out.println("*end of list.\n");
     } //ordered by plate then beginning date
 
-    //PD Command
+    /**
+     * Prints all reservations ordered by department and then by employee.
+     */
     public void printByDept() {
         if (size == 0) {
             System.out.println("There is no booking record.");
             return;
         }
-        //sorting by Department and Employees in order
         for (int i = 0; i < (size - 1); i++) {
             for (int j = 0; j < (size - i - 1); j++) {
                 String dept1 = bookings[j].getEmployee().getDepartment();
                 String dept2 = bookings[j + 1].getEmployee().getDepartment();
-                //sort departments
+
                 if (dept1.compareTo(dept2) > 0) {
                     Booking temp = bookings[j];
                     bookings[j] = bookings[j + 1];
@@ -265,7 +319,6 @@ public class Reservation {
                 }
             }
         }
-        //prints out sorted list
         System.out.println("*List of reservations ordered by department and employee.");
         String currentDept = "";
         for (int i = 0; i < size; i++) {
